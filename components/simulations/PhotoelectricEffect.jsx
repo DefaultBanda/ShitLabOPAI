@@ -45,6 +45,10 @@ export default function PhotoelectricEffect() {
   const [intensityData, setIntensityData] = useState([])
   const [energyData, setEnergyData] = useState([])
 
+  const [showVoltageGraph, setShowVoltageGraph] = useState(true)
+  const [showIntensityGraph, setShowIntensityGraph] = useState(true)
+  const [showEnergyGraph, setShowEnergyGraph] = useState(true)
+
   useEffect(() => {
     const c = 3e8
     const h = 4.135e-15 // eV*s
@@ -89,6 +93,10 @@ export default function PhotoelectricEffect() {
       ctx.beginPath()
       ctx.arc(canvas.width / 2, 70, 20, 0, Math.PI * 2)
       ctx.fill()
+      ctx.fillStyle = "#000"
+      ctx.font = "12px sans-serif"
+      ctx.textAlign = "center"
+      ctx.fillText(`${wavelength} nm`, canvas.width / 2, 95)
 
       // photons
       if (isPlaying) {
@@ -146,10 +154,19 @@ export default function PhotoelectricEffect() {
   const currentReading = voltageData.length ? voltageData[voltageData.length - 1].current : 0
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Photoelectric Effect (1.10)</h2>
-      <div className="flex flex-col lg:flex-row gap-4">
-        <div className="space-y-3 lg:w-1/2">
+    <div className="border rounded bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-between px-3 py-1 border-b bg-gray-100 dark:bg-gray-800 text-sm">
+        <span className="font-semibold">Photoelectric Effect</span>
+        <div className="space-x-4">
+          <button className="hover:underline">File</button>
+          <button className="hover:underline">Options</button>
+          <button className="hover:underline">Help</button>
+        </div>
+      </div>
+      <div className="p-4 space-y-4">
+        <h2 className="text-2xl font-bold">Photoelectric Effect (1.10)</h2>
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="space-y-3 lg:w-1/2">
           <canvas ref={canvasRef} className="w-full border rounded bg-white dark:bg-gray-900" />
           <div className="grid grid-cols-2 gap-2">
             <SliderRow
@@ -189,7 +206,7 @@ export default function PhotoelectricEffect() {
             >
               {Object.keys(TARGETS).map((t) => (
                 <option key={t} value={t}>
-                  {t}
+                  {t === "Unknown" ? "?????" : t}
                 </option>
               ))}
             </select>
@@ -205,51 +222,102 @@ export default function PhotoelectricEffect() {
               onClick={() => setIsPlaying((p) => !p)}
               className="ml-auto px-3 py-1 border rounded"
             >
-              {isPlaying ? "Pause" : "Play"}
+              {isPlaying ? "\u23F8\uFE0F Pause" : "\u25B6\uFE0F Play"}
             </button>
           </div>
           <div className="text-sm font-mono">Current: {currentReading.toFixed(3)} A</div>
         </div>
         <div className="lg:w-1/2 space-y-4">
-          <LineChart
-            width={350}
-            height={150}
-            data={voltageData}
-            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="voltage" label={{ value: "Voltage", position: "insideBottom", dy: 10 }} />
-            <YAxis label={{ value: "Current", angle: -90, position: "insideLeft" }} domain={[0, 'dataMax']} />
-            <Tooltip />
-            <Line type="monotone" dataKey="current" stroke="#8884d8" dot={false} />
-          </LineChart>
-          <LineChart
-            width={350}
-            height={150}
-            data={intensityData}
-            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="intensity" label={{ value: "Intensity", position: "insideBottom", dy: 10 }} />
-            <YAxis label={{ value: "Current", angle: -90, position: "insideLeft" }} domain={[0, 'dataMax']} />
-            <Tooltip />
-            <Line type="monotone" dataKey="current" stroke="#82ca9d" dot={false} />
-          </LineChart>
-          <LineChart
-            width={350}
-            height={150}
-            data={energyData}
-            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="frequency"
-              label={{ value: "Frequency (10^15 Hz)", position: "insideBottom", dy: 10 }}
-            />
-            <YAxis label={{ value: "Energy (eV)", angle: -90, position: "insideLeft" }} domain={[0, 12]} />
-            <Tooltip />
-            <Line type="monotone" dataKey="energy" stroke="#ff7300" dot={false} />
-          </LineChart>
+          <div>
+            <div className="flex items-center text-sm mb-1">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={showVoltageGraph}
+                  onChange={(e) => setShowVoltageGraph(e.target.checked)}
+                  className="mr-1"
+                />
+                Current vs battery voltage
+              </label>
+              <span className="ml-auto">🔍</span>
+            </div>
+            {showVoltageGraph && (
+              <LineChart
+                width={350}
+                height={150}
+                data={voltageData}
+                margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="voltage" label={{ value: "Voltage", position: "insideBottom", dy: 10 }} />
+                <YAxis label={{ value: "Current", angle: -90, position: "insideLeft" }} domain={[0, 'dataMax']} />
+                <Tooltip />
+                <Line type="monotone" dataKey="current" stroke="#8884d8" dot={false} />
+              </LineChart>
+            )}
+          </div>
+
+          <div>
+            <div className="flex items-center text-sm mb-1">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={showIntensityGraph}
+                  onChange={(e) => setShowIntensityGraph(e.target.checked)}
+                  className="mr-1"
+                />
+                Current vs light intensity
+              </label>
+              <span className="ml-auto">🔍</span>
+            </div>
+            {showIntensityGraph && (
+              <LineChart
+                width={350}
+                height={150}
+                data={intensityData}
+                margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="intensity" label={{ value: "Intensity", position: "insideBottom", dy: 10 }} />
+                <YAxis label={{ value: "Current", angle: -90, position: "insideLeft" }} domain={[0, 'dataMax']} />
+                <Tooltip />
+                <Line type="monotone" dataKey="current" stroke="#82ca9d" dot={false} />
+              </LineChart>
+            )}
+          </div>
+
+          <div>
+            <div className="flex items-center text-sm mb-1">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={showEnergyGraph}
+                  onChange={(e) => setShowEnergyGraph(e.target.checked)}
+                  className="mr-1"
+                />
+                Electron energy vs light frequency
+              </label>
+              <span className="ml-auto">🔍</span>
+            </div>
+            {showEnergyGraph && (
+              <LineChart
+                width={350}
+                height={150}
+                data={energyData}
+                margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="frequency"
+                  label={{ value: "Frequency (10^15 Hz)", position: "insideBottom", dy: 10 }}
+                />
+                <YAxis label={{ value: "Energy (eV)", angle: -90, position: "insideLeft" }} domain={[0, 12]} />
+                <Tooltip />
+                <Line type="monotone" dataKey="energy" stroke="#ff7300" dot={false} />
+              </LineChart>
+            )}
+          </div>
+        </div>
         </div>
       </div>
     </div>
