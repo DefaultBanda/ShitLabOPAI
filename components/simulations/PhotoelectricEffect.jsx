@@ -81,26 +81,50 @@ export default function PhotoelectricEffect() {
       ctx.fillStyle = "#777"
       ctx.fillRect(130, 135, 20, 50)
       ctx.fillRect(310, 135, 20, 50)
-      ctx.strokeStyle = "#444"
+
+      // circuit wires
+      ctx.strokeStyle = "#b45309"
+      ctx.lineWidth = 3
       ctx.beginPath()
-      ctx.moveTo(150, 160)
-      ctx.lineTo(150, 210)
-      ctx.lineTo(320, 210)
-      ctx.lineTo(320, 160)
+      ctx.moveTo(140, 160)
+      ctx.lineTo(140, 230)
+      ctx.lineTo(340, 230)
+      ctx.lineTo(340, 160)
       ctx.stroke()
+      ctx.lineWidth = 1
+
+      // ammeter
+      ctx.strokeStyle = "#666"
+      ctx.beginPath()
+      ctx.arc(240, 230, 12, 0, Math.PI * 2)
+      ctx.stroke()
+      ctx.fillStyle = "#222"
+      ctx.font = "12px sans-serif"
+      ctx.textAlign = "center"
+      ctx.fillText("A", 240, 234)
 
       // flashlight emitter
       const color = wavelengthToColor(wavelength)
+      ctx.fillStyle = "#333"
+      ctx.fillRect(canvas.width / 2 - 6, 40, 12, 25)
+      ctx.fillStyle = "#555"
+      ctx.beginPath()
+      ctx.moveTo(canvas.width / 2 - 18, 65)
+      ctx.lineTo(canvas.width / 2 + 18, 65)
+      ctx.lineTo(canvas.width / 2 + 25, 70)
+      ctx.lineTo(canvas.width / 2 - 25, 70)
+      ctx.closePath()
+      ctx.fill()
       ctx.fillStyle = color
       ctx.beginPath()
-      ctx.arc(canvas.width / 2, 70, 20, 0, Math.PI * 2)
+      ctx.arc(canvas.width / 2, 70, 12, 0, Math.PI, false)
       ctx.fill()
       ctx.fillStyle = "#000"
       ctx.font = "12px sans-serif"
       ctx.textAlign = "center"
       ctx.fillText(`${wavelength} nm`, canvas.width / 2, 95)
 
-      const beamStart = { x: canvas.width / 2, y: 90 }
+      const beamStart = { x: canvas.width / 2, y: 70 }
       const beamEnd = { x: 140, y: 160 }
 
       if (isPlaying) {
@@ -115,11 +139,15 @@ export default function PhotoelectricEffect() {
             })
           }
         } else {
-          ctx.strokeStyle = color
+          ctx.fillStyle = color
+          ctx.globalAlpha = intensity / 100
           ctx.beginPath()
-          ctx.moveTo(beamStart.x, beamStart.y)
+          ctx.moveTo(beamStart.x - 20, beamStart.y)
           ctx.lineTo(beamEnd.x, beamEnd.y)
-          ctx.stroke()
+          ctx.lineTo(beamStart.x + 20, beamStart.y)
+          ctx.closePath()
+          ctx.fill()
+          ctx.globalAlpha = 1
         }
       }
 

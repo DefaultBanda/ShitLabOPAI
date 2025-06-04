@@ -79,12 +79,6 @@ export default function HomePage() {
       icon: "🧲",
     },
     {
-      id: "photoelectric-effect",
-      title: "Photoelectric Effect",
-      description: "Simulate the photoelectric effect with adjustable light",
-      color: "from-indigo-500 to-sky-400",
-      icon: "⚡",
-    },
     {
       id: "flappy-bird",
       title: "Not Flappy Bird",
@@ -98,6 +92,13 @@ export default function HomePage() {
       description: "F1-inspired pixel racing game with Franz Hermann",
       color: "from-red-600 to-red-400",
       icon: "🏎️",
+    },
+    {
+      id: "photoelectric-effect",
+      title: "Photoelectric Effect",
+      description: "Simulate the photoelectric effect with adjustable light",
+      color: "from-indigo-500 to-sky-400",
+      icon: "⚡"
     },
   ]
 
