@@ -33,6 +33,7 @@ export default function PhotoelectricEffect() {
   const canvasRef = useRef(null)
   const animationRef = useRef(null)
   const electronsRef = useRef([])
+  const photonsRef = useRef([])
 
   const [wavelength, setWavelength] = useState(400)
   const [intensity, setIntensity] = useState(0)
@@ -40,6 +41,7 @@ export default function PhotoelectricEffect() {
   const [target, setTarget] = useState("Sodium")
   const [showHighest, setShowHighest] = useState(true)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [showPhotons, setShowPhotons] = useState(false)
 
   const [voltageData, setVoltageData] = useState([])
   const [intensityData, setIntensityData] = useState([])
@@ -98,14 +100,25 @@ export default function PhotoelectricEffect() {
       ctx.textAlign = "center"
       ctx.fillText(`${wavelength} nm`, canvas.width / 2, 95)
 
-      // photons
+      const beamStart = { x: canvas.width / 2, y: 90 }
+      const beamEnd = { x: 140, y: 160 }
+
       if (isPlaying) {
-        ctx.strokeStyle = color
-        for (let i = 0; i < intensity; i += 10) {
-          const y = 120 + Math.random() * 20
+        if (showPhotons) {
+          for (let i = 0; i < intensity / 10; i++) {
+            photonsRef.current.push({
+              x: beamStart.x,
+              y: beamStart.y,
+              vx: (beamEnd.x - beamStart.x) / 30,
+              vy: (beamEnd.y - beamStart.y) / 30,
+              color,
+            })
+          }
+        } else {
+          ctx.strokeStyle = color
           ctx.beginPath()
-          ctx.moveTo(canvas.width / 2, y)
-          ctx.lineTo(150, y)
+          ctx.moveTo(beamStart.x, beamStart.y)
+          ctx.lineTo(beamEnd.x, beamEnd.y)
           ctx.stroke()
         }
       }
@@ -132,6 +145,25 @@ export default function PhotoelectricEffect() {
         (e) => e.x < 310 && e.y > 120 && e.y < 200 && e.vx > -0.1
       )
 
+      photonsRef.current.forEach((p) => {
+        p.x += p.vx
+        p.y += p.vy
+      })
+      photonsRef.current = photonsRef.current.filter(
+        (p) =>
+          (p.vx < 0 ? p.x > beamEnd.x : p.x < beamEnd.x) &&
+          (p.vy < 0 ? p.y > beamEnd.y : p.y < beamEnd.y)
+      )
+
+      if (showPhotons) {
+        photonsRef.current.forEach((p) => {
+          ctx.fillStyle = p.color
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
+          ctx.fill()
+        })
+      }
+
       ctx.fillStyle = showHighest ? "#0af" : "#09f"
       electronsRef.current.forEach((e) => {
         ctx.beginPath()
@@ -147,6 +179,7 @@ export default function PhotoelectricEffect() {
     }
     return () => {
       electronsRef.current = []
+      photonsRef.current = []
       cancelAnimationFrame(animationRef.current)
     }
   }, [wavelength, intensity, voltage, target, showHighest, isPlaying])
@@ -168,7 +201,7 @@ export default function PhotoelectricEffect() {
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="space-y-3 lg:w-1/2">
           <canvas ref={canvasRef} className="w-full border rounded bg-white dark:bg-gray-900" />
-          <div className="grid grid-cols-2 gap-2">
+          <div className="border rounded p-2 bg-gray-50 dark:bg-gray-800">
             <SliderRow
               label="Intensity"
               value={intensity}
@@ -186,17 +219,21 @@ export default function PhotoelectricEffect() {
               step={10}
               onChange={setWavelength}
               unit=" nm"
-            />
-            <SliderRow
-              label="Voltage"
-              value={voltage}
-              min={-8}
-              max={8}
-              step={0.1}
-              onChange={setVoltage}
-              unit=" V"
+              trackStyle={{
+                background:
+                  "linear-gradient(to right,#8b00ff,#0000ff,#00ff00,#ffff00,#ff8000,#ff0000)",
+              }}
             />
           </div>
+          <SliderRow
+            label="Voltage"
+            value={voltage}
+            min={-8}
+            max={8}
+            step={0.1}
+            onChange={setVoltage}
+            unit=" V"
+          />
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium">Target</label>
             <select
@@ -218,6 +255,14 @@ export default function PhotoelectricEffect() {
               />
               Show only highest energy electrons
             </label>
+            <label className="flex items-center ml-4 text-sm gap-1">
+              <input
+                type="checkbox"
+                checked={showPhotons}
+                onChange={(e) => setShowPhotons(e.target.checked)}
+              />
+              Show photons
+            </label>
             <button
               onClick={() => setIsPlaying((p) => !p)}
               className="ml-auto px-3 py-1 border rounded"
@@ -225,7 +270,9 @@ export default function PhotoelectricEffect() {
               {isPlaying ? "\u23F8\uFE0F Pause" : "\u25B6\uFE0F Play"}
             </button>
           </div>
-          <div className="text-sm font-mono">Current: {currentReading.toFixed(3)} A</div>
+          <div className="text-sm font-mono border border-yellow-400 bg-black text-yellow-300 px-2 py-1 inline-block rounded">
+            Current: {currentReading.toFixed(3)}
+          </div>
         </div>
         <div className="lg:w-1/2 space-y-4">
           <div>
