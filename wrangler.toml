@@ -1,0 +1,4 @@
+name = "random-shit-lab"
+compatibility_date = "2025-06-04"
+main = "worker.js"
+
