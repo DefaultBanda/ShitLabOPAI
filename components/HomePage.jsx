@@ -79,7 +79,6 @@ export default function HomePage() {
       icon: "🧲",
     },
     {
-    {
       id: "flappy-bird",
       title: "Not Flappy Bird",
       description: "Play an enhanced version of the classic Flappy Bird game with power-ups",
