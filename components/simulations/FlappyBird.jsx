@@ -678,7 +678,7 @@ export default function FlappyBird() {
 
   return (
     <div className="flex flex-col items-center w-full max-w-lg mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Sick Flappy Bird</h1>
+      <h1 className="text-3xl font-bold mb-4">NOT Flappy Bird</h1>
 
       <div className="relative mb-4">
         <canvas
