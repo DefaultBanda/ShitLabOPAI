@@ -17,16 +17,19 @@ export async function saveScore(name, time, mode) {
   const timeMs = Math.round(time)
 
   try {
-    // Save to Supabase
-    const { data, error } = await supabase.from("reaction_times").insert([
-      {
-        name: name.trim() || "Anonymous",
-        reaction_ms: timeMs,
-        mode,
-      },
-    ])
-
-    if (error) throw error
+    let result = null
+    // Save to Supabase if configured
+    if (supabase) {
+      const { data, error } = await supabase.from("reaction_times").insert([
+        {
+          name: name.trim() || "Anonymous",
+          reaction_ms: timeMs,
+          mode,
+        },
+      ])
+      if (error) throw error
+      result = data
+    }
 
     // Also save to localStorage as backup
     const scores = JSON.parse(localStorage.getItem(`f1-${mode}-scores`) || "[]")
@@ -34,7 +37,7 @@ export async function saveScore(name, time, mode) {
     scores.sort((a, b) => a.time - b.time)
     localStorage.setItem(`f1-${mode}-scores`, JSON.stringify(scores.slice(0, 10)))
 
-    return data
+    return result
   } catch (error) {
     console.error("Error saving score:", error)
 
@@ -55,16 +58,19 @@ export async function saveScore(name, time, mode) {
 // Get scores from Supabase
 export async function getScores(mode, limit = 10) {
   try {
-    const { data, error } = await supabase
-      .from("reaction_times")
-      .select("*")
-      .eq("mode", mode)
-      .order("reaction_ms", { ascending: true })
-      .limit(limit)
+    if (supabase) {
+      const { data, error } = await supabase
+        .from("reaction_times")
+        .select("*")
+        .eq("mode", mode)
+        .order("reaction_ms", { ascending: true })
+        .limit(limit)
 
-    if (error) throw error
+      if (error) throw error
 
-    return data || []
+      return data || []
+    }
+    return getLocalScores(mode, limit)
   } catch (error) {
     console.error("Error fetching scores:", error)
 

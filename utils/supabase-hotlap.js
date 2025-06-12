@@ -1,13 +1,23 @@
 import { createClient } from "@supabase/supabase-js"
 
-// Create a dedicated Supabase client for Hotlap Showdown
+// Create a dedicated Supabase client for Hotlap Showdown if env vars are set
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-export const supabaseHotlap = createClient(supabaseUrl, supabaseAnonKey)
+export const supabaseHotlap =
+  supabaseUrl && supabaseAnonKey
+    ? createClient(supabaseUrl, supabaseAnonKey)
+    : null
+
+if (!supabaseHotlap) {
+  console.warn(
+    "Supabase disabled: NEXT_PUBLIC_SUPABASE_URL/ANON_KEY environment variables not set"
+  )
+}
 
 // Function to get top scores for a specific track
 export async function getTopScores(trackId, limit = 10) {
+  if (!supabaseHotlap) return []
   const { data, error } = await supabaseHotlap
     .from("hotlap_leaderboard")
     .select("*")
@@ -44,15 +54,18 @@ export async function saveLapTime(driverName, constructorName, constructorId, tr
     return false
   }
 
-  const { data, error } = await supabaseHotlap.from("hotlap_leaderboard").insert([
-    {
-      driver_name: driverName,
-      constructor_name: constructorName,
-      constructor_id: constructorId,
-      track_id: trackId,
-      lap_time: lapTimeInt,
-    },
-  ])
+  if (!supabaseHotlap) return true
+  const { data, error } = await supabaseHotlap
+    .from("hotlap_leaderboard")
+    .insert([
+      {
+        driver_name: driverName,
+        constructor_name: constructorName,
+        constructor_id: constructorId,
+        track_id: trackId,
+        lap_time: lapTimeInt,
+      },
+    ])
 
   if (error) {
     console.error("Supabase error saving lap time:", error)
