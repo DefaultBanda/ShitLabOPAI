@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { getTopScores, saveLapTime } from "@/utils/supabase-hotlap"
+import { getTopScores, saveLapTime } from "@/utils/local-hotlap"
 import { useTheme } from "next-themes"
 import html2canvas from "html2canvas"
 
