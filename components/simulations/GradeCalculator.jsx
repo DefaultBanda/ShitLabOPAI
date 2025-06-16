@@ -43,6 +43,9 @@ export default function GradeCalculator() {
   const [dropNF, setDropNF] = useState(1)
   const [dropWF, setDropWF] = useState(10)
 
+  // top 6 average
+  const [courses, setCourses] = useState([80, 80, 80, 80, 80, 80])
+
   const w = weight / 100
   const c = current / 100
   const d = desired / 100
@@ -51,6 +54,7 @@ export default function GradeCalculator() {
 
   const computeGraphData = () => {
     const data = []
+    if (mode === "top-six") return data
     for (let i = 0; i <= 20; i++) {
       const score = i * 5
       let grade
@@ -136,10 +140,20 @@ export default function GradeCalculator() {
       ? ((dd - nonDropped - nonTest) / totalW) * 100
       : NaN
 
+  const top6Avg = (() => {
+    const vals = courses
+      .map((v) => parseFloat(v))
+      .filter((n) => !isNaN(n))
+    if (!vals.length) return NaN
+    const sorted = vals.sort((a, b) => b - a)
+    const top = sorted.slice(0, Math.min(6, sorted.length))
+    return top.reduce((a, b) => a + b, 0) / top.length
+  })()
+
   const finalGraphData = computeGraphData()
 
   return (
-    <div className="max-w-3xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-8">
       <h2 className="text-3xl font-bold text-center mb-4">Final Grade Calculator</h2>
 
       <select
@@ -153,6 +167,7 @@ export default function GradeCalculator() {
         <option value="multi-part">Multi-part Final Average</option>
         <option value="weight-points">Weight of Final from Points</option>
         <option value="dropped-tests">Final Exam with Dropped Tests</option>
+        <option value="top-six">Top 6 Average</option>
       </select>
 
       {mode === "final-required" && (
@@ -341,6 +356,39 @@ export default function GradeCalculator() {
               <Tooltip />
               <Line type="monotone" dataKey="grade" stroke="#16a34a" />
             </LineChart>
+          </div>
+        </div>
+      )}
+      {mode === "top-six" && (
+        <div className="p-4 border rounded bg-gray-50 dark:bg-gray-800 space-y-3">
+          <h3 className="text-xl font-semibold">Top 6 Average</h3>
+          {courses.map((val, idx) => (
+            <label key={idx} className="block text-sm">
+              Course {idx + 1} Grade (%)
+              <input
+                type="number"
+                value={val}
+                onChange={(e) =>
+                  setCourses((c) => {
+                    const arr = [...c]
+                    arr[idx] = parseFloat(e.target.value)
+                    return arr
+                  })
+                }
+                className="mt-1 w-full p-2 border rounded bg-background"
+              />
+            </label>
+          ))}
+          {courses.length < 10 && (
+            <button
+              onClick={() => setCourses([...courses, 0])}
+              className="px-2 py-1 border rounded bg-background"
+            >
+              Add Course
+            </button>
+          )}
+          <div className="font-mono text-lg">
+            Top 6 Average: {isNaN(top6Avg) ? "N/A" : top6Avg.toFixed(2)}%
           </div>
         </div>
       )}
