@@ -45,7 +45,7 @@ export default function ThemeProvider({ children }) {
           <img src="/SimL.png" alt="Physics Lab Logo" className="h-10 w-auto block dark:hidden" />
           <img src="/SimLD.png" alt="Physics Lab Logo" className="h-10 w-auto hidden dark:block" />
           <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-            RandomSh!t Lab
+            Sorta Works Studio
           </span>
         </Link>
         <ThemeToggle />
@@ -54,7 +54,7 @@ export default function ThemeProvider({ children }) {
       <main className="container mx-auto py-4 px-4">{mounted && children}</main>
 
       <footer className="container mx-auto py-6 px-4 text-center text-sm text-gray-500 dark:text-gray-400">
-        <p>Created by Karman B, Ramneek N, Ishvir C, and David Y</p>
+        <p>Created by Karman B, Ramneek N and Ishvir C Y</p>
       </footer>
     </ThemeContext.Provider>
   )
