@@ -37,13 +37,6 @@ export default function HomePage() {
       icon: "🌊",
     },
     {
-      id: "wall-break-escape",
-      title: "Wall Break Escape",
-      description: "Watch a ball break through polygon walls and escape",
-      color: "from-orange-500 to-amber-400",
-      icon: "🔨",
-    },
-    {
       id: "momentum-clash",
       title: "Momentum Clash",
       description: "Explore conservation of momentum in different collision types",
