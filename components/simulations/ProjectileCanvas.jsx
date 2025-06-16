@@ -32,6 +32,8 @@ export default function ProjectileCanvas({
     particles: [],
     isLaunched: false,
     isGrounded: false,
+    maxHeight: 0,
+    groundY: 0,
   })
 
   // Track timestamp for variable frame timing
@@ -61,6 +63,8 @@ export default function ProjectileCanvas({
     const groundY = canvas.height - 20
     const initialHeightPixels = initialHeight * SCALE
     state.y = groundY - initialHeightPixels
+    state.groundY = groundY
+    state.maxHeight = initialHeight
 
     state.path = [[state.x * SCALE, state.y]]
     state.particles = []
@@ -117,6 +121,11 @@ export default function ProjectileCanvas({
         state.x += state.vx * dt
         state.y += state.vy * dt * SCALE // Convert y to pixels for display
 
+        const currentHeight = (state.groundY - state.y) / SCALE
+        if (currentHeight > state.maxHeight) {
+          state.maxHeight = currentHeight
+        }
+
         // Add point to trajectory (convert x to pixels for display)
         state.path.push([state.x * SCALE, state.y])
 
@@ -144,8 +153,8 @@ export default function ProjectileCanvas({
         }
 
         // Check if ball hit the ground
-        if (state.y >= canvas.height - 20) {
-          state.y = canvas.height - 20
+        if (state.y >= state.groundY) {
+          state.y = state.groundY
           state.isGrounded = true
 
           // Create impact particles
@@ -160,9 +169,12 @@ export default function ProjectileCanvas({
             })
           }
 
-          // Call onComplete callback
           if (typeof onComplete === "function") {
-            onComplete()
+            onComplete({
+              time: state.time,
+              range: state.x - 2,
+              maxHeight: state.maxHeight,
+            })
           }
         }
 
