@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts"
 
 export default function GradeCalculator() {
   const [mode, setMode] = useState("final-required")
@@ -47,6 +48,11 @@ export default function GradeCalculator() {
   const d = desired / 100
   const fNeeded = w > 0 ? ((d - (1 - w) * c) / w) * 100 : NaN
   const finalGrade = ((1 - w) * c + w * (finalScore / 100)) * 100
+  const finalGraphData = Array.from({ length: 21 }, (_, i) => {
+    const score = i * 5
+    const grade = ((1 - w) * c + w * (score / 100)) * 100
+    return { score, grade }
+  })
 
   // final counts as a test
   const tw = testWeight / 100
@@ -128,6 +134,18 @@ export default function GradeCalculator() {
             <input type="number" value={weight} onChange={(e)=>setWeight(parseFloat(e.target.value))} className="mt-1 w-full p-2 border rounded bg-background" />
           </label>
           <div className="font-mono text-lg">Required Score: {isNaN(fNeeded) ? "N/A" : fNeeded.toFixed(2)}%</div>
+          <LineChart
+            width={300}
+            height={200}
+            data={finalGraphData}
+            className="mx-auto"
+          >
+            <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
+            <XAxis dataKey="score" label={{ value: "Final Score (%)", position: "insideBottom", dy: 10 }} />
+            <YAxis label={{ value: "Overall Grade (%)", angle: -90, position: "insideLeft" }} />
+            <Tooltip />
+            <Line type="monotone" dataKey="grade" stroke="#16a34a" />
+          </LineChart>
         </div>
       )}
       {mode === "overall-after" && (
@@ -238,6 +256,7 @@ export default function GradeCalculator() {
           <div className="font-mono text-lg">Required Final Score: {isNaN(dropNeeded) ? "N/A" : dropNeeded.toFixed(2)}%</div>
         </div>
       )}
+      <p className="text-center italic text-sm mt-8">"Education is not the filling of a pail, but the lighting of a fire." – William Butler Yeats</p>
     </div>
   )
 }
