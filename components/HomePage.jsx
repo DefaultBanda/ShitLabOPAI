@@ -92,6 +92,20 @@ export default function HomePage() {
       color: "from-red-600 to-red-400",
       icon: "🏎️",
     },
+    {
+      id: "photoelectric-effect",
+      title: "Photoelectric Effect",
+      description: "Simulate the photoelectric effect with adjustable light",
+      color: "from-indigo-500 to-sky-400",
+      icon: "⚡"
+    },
+    {
+      id: "grade-calculator",
+      title: "Final Grade Calculator",
+      description: "Compute exam requirements and final grades",
+      color: "from-green-600 to-emerald-400",
+      icon: "📈",
+    },
   ]
 
   const handleSelectGame = (gameId) => {

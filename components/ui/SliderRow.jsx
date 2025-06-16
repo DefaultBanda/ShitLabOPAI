@@ -3,7 +3,7 @@
 import { useState, useRef } from "react"
 import { motion } from "framer-motion"
 
-export default function SliderRow({ label, value, min, max, step, onChange, unit = "" }) {
+export default function SliderRow({ label, value, min, max, step, onChange, unit = "", trackStyle = {} }) {
   const [isEditing, setIsEditing] = useState(false)
   const [inputValue, setInputValue] = useState(value.toString())
   const inputRef = useRef(null)
@@ -89,6 +89,7 @@ export default function SliderRow({ label, value, min, max, step, onChange, unit
         onChange={(e) => onChange(Number.parseFloat(e.target.value))}
         className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
         aria-label={label}
+        style={trackStyle}
       />
       <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
         <span>
