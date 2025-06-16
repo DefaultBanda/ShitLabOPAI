@@ -45,6 +45,8 @@ export default function GradeCalculator() {
 
   // top 6 average
   const [courses, setCourses] = useState([80, 80, 80, 80, 80, 80])
+  const [conditional, setConditional] = useState(80)
+  const [graphCourse, setGraphCourse] = useState(0)
 
   const w = weight / 100
   const c = current / 100
@@ -54,7 +56,17 @@ export default function GradeCalculator() {
 
   const computeGraphData = () => {
     const data = []
-    if (mode === "top-six") return data
+    if (mode === "top-six") {
+      for (let s = 0; s <= 20; s++) {
+        const score = s * 5
+        const arr = courses.map((v, i) => (i === graphCourse ? score : v))
+        const sorted = [...arr].sort((a, b) => b - a)
+        const top = sorted.slice(0, 6)
+        const avg = top.reduce((a, b) => a + b, 0) / top.length
+        data.push({ score, grade: avg })
+      }
+      return data
+    }
     for (let i = 0; i <= 20; i++) {
       const score = i * 5
       let grade
@@ -149,6 +161,19 @@ export default function GradeCalculator() {
     const top = sorted.slice(0, Math.min(6, sorted.length))
     return top.reduce((a, b) => a + b, 0) / top.length
   })()
+
+  const lowestNeeded = (idx) => {
+    const others = courses.filter((_, i) => i !== idx)
+    const need = conditional * 6
+    const sorted = [...others].sort((a, b) => b - a)
+    if (others.length >= 6 && sorted.slice(0, 6).reduce((a, b) => a + b, 0) >= need) {
+      return 0
+    }
+    const top5 = sorted.slice(0, 5)
+    const sum = top5.reduce((a, b) => a + b, 0)
+    const req = need - sum
+    return Math.max(0, Math.min(100, req))
+  }
 
   const finalGraphData = computeGraphData()
 
@@ -362,6 +387,14 @@ export default function GradeCalculator() {
       {mode === "top-six" && (
         <div className="p-4 border rounded bg-gray-50 dark:bg-gray-800 space-y-3">
           <h3 className="text-xl font-semibold">Top 6 Average</h3>
+          <label className="block text-sm">Conditional Offer (%)
+            <input
+              type="number"
+              value={conditional}
+              onChange={(e) => setConditional(parseFloat(e.target.value))}
+              className="mt-1 w-full p-2 border rounded bg-background"
+            />
+          </label>
           {courses.map((val, idx) => (
             <label key={idx} className="block text-sm">
               Course {idx + 1} Grade (%)
@@ -377,6 +410,9 @@ export default function GradeCalculator() {
                 }
                 className="mt-1 w-full p-2 border rounded bg-background"
               />
+              <div className="text-xs mt-1 text-gray-600 dark:text-gray-400">
+                Lowest to keep {conditional}%: {lowestNeeded(idx).toFixed(2)}%
+              </div>
             </label>
           ))}
           {courses.length < 10 && (
@@ -389,6 +425,26 @@ export default function GradeCalculator() {
           )}
           <div className="font-mono text-lg">
             Top 6 Average: {isNaN(top6Avg) ? "N/A" : top6Avg.toFixed(2)}%
+          </div>
+          <div className="space-y-2">
+            <label className="block text-sm">Graph Course
+              <select
+                value={graphCourse}
+                onChange={(e) => setGraphCourse(parseInt(e.target.value))}
+                className="mt-1 w-full p-2 border rounded bg-background"
+              >
+                {courses.map((_, i) => (
+                  <option key={i} value={i}>Course {i + 1}</option>
+                ))}
+              </select>
+            </label>
+            <LineChart width={400} height={250} data={finalGraphData} className="mx-auto">
+              <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
+              <XAxis dataKey="score" label={{ value: "Course Grade (%)", position: "insideBottom", dy: 10 }} />
+              <YAxis label={{ value: "Top 6 Avg (%)", angle: -90, position: "insideLeft" }} />
+              <Tooltip />
+              <Line type="monotone" dataKey="grade" stroke="#2563eb" />
+            </LineChart>
           </div>
         </div>
       )}
