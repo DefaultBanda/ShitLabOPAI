@@ -113,7 +113,7 @@ export default function HomePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        RandomSh!t Lab
+        Sorta Works Studio
       </motion.h1>
 
       <motion.p
