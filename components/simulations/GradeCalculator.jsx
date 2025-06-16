@@ -47,6 +47,7 @@ export default function GradeCalculator() {
   const [courses, setCourses] = useState([80, 80, 80, 80, 80, 80])
   const [conditional, setConditional] = useState(80)
   const [graphCourse, setGraphCourse] = useState(0)
+  const [minCourse, setMinCourse] = useState(50)
 
   const w = weight / 100
   const c = current / 100
@@ -395,6 +396,14 @@ export default function GradeCalculator() {
               className="mt-1 w-full p-2 border rounded bg-background"
             />
           </label>
+          <label className="block text-sm">Minimum Course Grade (%)
+            <input
+              type="number"
+              value={minCourse}
+              onChange={(e) => setMinCourse(parseFloat(e.target.value))}
+              className="mt-1 w-full p-2 border rounded bg-background"
+            />
+          </label>
           {courses.map((val, idx) => (
             <label key={idx} className="block text-sm">
               Course {idx + 1} Grade (%)
@@ -411,7 +420,13 @@ export default function GradeCalculator() {
                 className="mt-1 w-full p-2 border rounded bg-background"
               />
               <div className="text-xs mt-1 text-gray-600 dark:text-gray-400">
-                Lowest to keep {conditional}%: {lowestNeeded(idx).toFixed(2)}%
+                Lowest to keep {conditional}%: {lowestNeeded(idx).toFixed(2)}% (min {minCourse}%)
+              </div>
+              <div className="h-2 bg-gray-200 rounded overflow-hidden mt-1">
+                <div
+                  className={`h-full ${val < Math.max(minCourse, lowestNeeded(idx)) ? "bg-red-500" : "bg-green-500"}`}
+                  style={{ width: `${Math.max(0, Math.min(val, 100))}%` }}
+                />
               </div>
             </label>
           ))}
