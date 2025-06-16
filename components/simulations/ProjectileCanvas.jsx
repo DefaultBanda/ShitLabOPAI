@@ -34,6 +34,9 @@ export default function ProjectileCanvas({
     isGrounded: false,
   })
 
+  // Track timestamp for variable frame timing
+  const lastTimeRef = useRef(null)
+
   // Scaling factor (pixels per meter)
   const SCALE = 20
 
@@ -70,7 +73,10 @@ export default function ProjectileCanvas({
     }
 
     // Start animation loop
-    const animate = () => {
+    const animate = (timestamp) => {
+      if (lastTimeRef.current == null) lastTimeRef.current = timestamp
+      const dt = Math.min((timestamp - lastTimeRef.current) / 1000, 0.05)
+      lastTimeRef.current = timestamp
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -82,7 +88,6 @@ export default function ProjectileCanvas({
 
       // Update physics if launched and not grounded
       if (state.isLaunched && !state.isGrounded) {
-        const dt = 1 / 60 // Approximate frame time in seconds
 
         if (advanced) {
           // Advanced physics with air resistance and wind
@@ -202,13 +207,14 @@ export default function ProjectileCanvas({
     }
 
     // Start animation
-    animate()
+    animationRef.current = requestAnimationFrame(animate)
 
     // Cleanup on unmount
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
+      lastTimeRef.current = null
     }
   }, [
     angle,
@@ -261,8 +267,8 @@ export default function ProjectileCanvas({
     // Draw ruler marks
     ctx.fillStyle = "#6b7280"
     for (let x = 0; x < width; x += SCALE) {
-      const height = x % (SCALE * 5) === 0 ? 10 : 5
-      ctx.fillRect(x, height - 20, 1, height)
+      const tickHeight = x % (SCALE * 5) === 0 ? 10 : 5
+      ctx.fillRect(x, height - 20, 1, tickHeight)
 
       // Add labels every 5 meters
       if (x % (SCALE * 5) === 0) {
