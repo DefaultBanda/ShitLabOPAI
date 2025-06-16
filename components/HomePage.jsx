@@ -51,27 +51,6 @@ export default function HomePage() {
       icon: "💥",
     },
     {
-      id: "spend-elon",
-      title: "Spend Elon's Money",
-      description: "Try to spend $486.4 billion by purchasing various items",
-      color: "from-green-500 to-teal-400",
-      icon: "💰",
-    },
-    {
-      id: "f1-reaction",
-      title: "F1 Reaction Test",
-      description: "Test your reaction time with F1 start lights and pit stop challenges",
-      color: "from-red-500 to-orange-400",
-      icon: "🏎️",
-    },
-    {
-      id: "black-hole",
-      title: "Black Hole Simulation",
-      description: "Watch particles interact with a simulated black hole",
-      color: "from-gray-800 to-purple-900",
-      icon: "🌌",
-    },
-    {
       id: "magnetic-fields",
       title: "Magnetic Fields",
       description: "Explore magnetic fields with interactive bar magnets and electromagnets",
@@ -84,20 +63,6 @@ export default function HomePage() {
       description: "Simulate the photoelectric effect with adjustable light",
       color: "from-indigo-500 to-sky-400",
       icon: "⚡",
-    },
-    {
-      id: "flappy-bird",
-      title: "Not Flappy Bird",
-      description: "Play an enhanced version of the classic Flappy Bird game with power-ups",
-      color: "from-yellow-500 to-yellow-300",
-      icon: "🐦",
-    },
-    {
-      id: "hotlap-showdown",
-      title: "Hotlap Showdown",
-      description: "F1-inspired pixel racing game with Franz Hermann",
-      color: "from-red-600 to-red-400",
-      icon: "🏎️",
     },
   ]
 
