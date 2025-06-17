@@ -93,6 +93,13 @@ export default function HomePage() {
       icon: "🏎️",
     },
     {
+      id: "f1-stats",
+      title: "F1 Stats",
+      description: "View race schedules and latest results",
+      color: "from-red-700 to-red-500",
+      icon: "📊",
+    },
+    {
       id: "photoelectric-effect",
       title: "Photoelectric Effect",
       description: "Simulate the photoelectric effect with adjustable light",
