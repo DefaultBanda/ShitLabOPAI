@@ -37,11 +37,39 @@ export default function HomePage() {
       icon: "🌊",
     },
     {
+      id: "wall-break-escape",
+      title: "Wall Break Escape",
+      description: "Watch a ball break through polygon walls and escape",
+      color: "from-orange-500 to-amber-400",
+      icon: "🔨",
+    },
+    {
       id: "momentum-clash",
       title: "Momentum Clash",
       description: "Explore conservation of momentum in different collision types",
       color: "from-blue-500 to-purple-400",
       icon: "💥",
+    },
+    {
+      id: "spend-elon",
+      title: "Spend Elon's Money",
+      description: "Try to spend $486.4 billion by purchasing various items",
+      color: "from-green-500 to-teal-400",
+      icon: "💰",
+    },
+    {
+      id: "f1-reaction",
+      title: "F1 Reaction Test",
+      description: "Test your reaction time with F1 start lights and pit stop challenges",
+      color: "from-red-500 to-orange-400",
+      icon: "🏎️",
+    },
+    {
+      id: "black-hole",
+      title: "Black Hole Simulation",
+      description: "Watch particles interact with a simulated black hole",
+      color: "from-gray-800 to-purple-900",
+      icon: "🌌",
     },
     {
       id: "magnetic-fields",
@@ -51,11 +79,32 @@ export default function HomePage() {
       icon: "🧲",
     },
     {
+      id: "flappy-bird",
+      title: "Not Flappy Bird",
+      description: "Play an enhanced version of the classic Flappy Bird game with power-ups",
+      color: "from-yellow-500 to-yellow-300",
+      icon: "🐦",
+    },
+    {
+      id: "hotlap-showdown",
+      title: "Hotlap Showdown",
+      description: "F1-inspired pixel racing game with Franz Hermann",
+      color: "from-red-600 to-red-400",
+      icon: "🏎️",
+    },
+    {
       id: "photoelectric-effect",
       title: "Photoelectric Effect",
       description: "Simulate the photoelectric effect with adjustable light",
       color: "from-indigo-500 to-sky-400",
-      icon: "⚡",
+      icon: "⚡"
+    },
+    {
+      id: "grade-calculator",
+      title: "Final Grade Calculator",
+      description: "Compute exam requirements and final grades",
+      color: "from-green-600 to-emerald-400",
+      icon: "📈",
     },
   ]
 

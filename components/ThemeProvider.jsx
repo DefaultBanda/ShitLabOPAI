@@ -54,7 +54,7 @@ export default function ThemeProvider({ children }) {
       <main className="container mx-auto py-4 px-4">{mounted && children}</main>
 
       <footer className="container mx-auto py-6 px-4 text-center text-sm text-gray-500 dark:text-gray-400">
-        <p>Created by Karman B, Ramneek N and Ishvir C Y</p>
+        <p>Created by Karman B, Ramneek N, Ishvir C, and David Y</p>
       </footer>
     </ThemeContext.Provider>
   )

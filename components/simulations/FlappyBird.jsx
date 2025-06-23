@@ -259,7 +259,7 @@ export default function FlappyBird() {
       if (!state.pipes[i].passed && state.pipes[i].x + state.pipes[i].width < state.bird.x) {
         state.pipes[i].passed = true
         state.score += 1
-        setScore(state.score)
+        setScore(state.score) // Make sure React state is updated
 
         // Add score effect
         state.effects.push({
@@ -638,7 +638,7 @@ export default function FlappyBird() {
     ctx.fillStyle = "white"
     ctx.font = "bold 30px Arial"
     ctx.textAlign = "center"
-    ctx.fillText(score.toString(), canvas.width / 2, 50)
+    ctx.fillText(state.score.toString(), canvas.width / 2, 50)
 
     // Draw game over screen
     if (gameOver) {
@@ -678,7 +678,7 @@ export default function FlappyBird() {
 
   return (
     <div className="flex flex-col items-center w-full max-w-lg mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">NOT Flappy Bird</h1>
+      <h1 className="text-3xl font-bold mb-4">Not Flappy Bird</h1>
 
       <div className="relative mb-4">
         <canvas

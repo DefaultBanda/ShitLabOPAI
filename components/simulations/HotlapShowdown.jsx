@@ -39,7 +39,12 @@ const CONSTRUCTORS = [
   { id: "ferrari", name: "Scuderia Overcut", color: "#DC0000", image: "/images/constructors/prancing-meteor.png" },
   { id: "mercedes", name: "No Mikey No", color: "#00D2BE", image: "/images/constructors/silver-hawkworks.png" },
   { id: "mclaren", name: "Oscar’s Kitchen", color: "#FF8700", image: "/images/constructors/papaya-blaze.png" },
-  { id: "astonmartin", name: "Daddy's Tax Write-Off", color: "#006F62", image: "/images/constructors/team-strollspeed.png" },
+  {
+    id: "astonmartin",
+    name: "Daddy's Tax Write-Off",
+    color: "#006F62",
+    image: "/images/constructors/team-strollspeed.png",
+  },
   { id: "alpine", name: "Baguette", color: "#0090FF", image: "/images/constructors/bleu-de-france.png" },
   { id: "rb", name: "Visa Declined", color: "#1E41FF", image: "/images/constructors/alpha-howlers.png" },
   { id: "williams", name: "Vowels Inc", color: "#005AFF", image: "/images/constructors/vantavision.png" },
@@ -54,7 +59,7 @@ const TEAM_COLORS = {
   "No Mikey No": { body: "#aaaaaa", accent: "#000000" },
   "Oscar’s Kitchen": { body: "#ff8000", accent: "#ffffff" },
   "Daddy's Tax Write-Off": { body: "#006644", accent: "#99ffcc" },
-  "Baguette": { body: "#0055ff", accent: "#ffffff" },
+  Baguette: { body: "#0055ff", accent: "#ffffff" },
   "Visa Declined": { body: "#222222", accent: "#4444ff" },
   "Vowels Inc": { body: "#003366", accent: "#6699cc" },
   "Sauber Sigma": { body: "#00ffcc", accent: "#333333" },
@@ -154,58 +159,58 @@ const TRACK_LAYOUTS = {
     startPosition: { x: 150, y: 200 },
   },
 
- melbourne: {
-  path: [
-    { x: 360, y: 490, type: "start" },
-    { x: 310, y: 440, type: "curve" },
-    { x: 350, y: 450, type: "curve" },
-    { x: 330, y: 450, type: "curve" },
-    { x: 370, y: 510, type: "curve" },
-    { x: 370, y: 460, type: "curve" },
-    { x: 390, y: 470, type: "curve" },
-    { x: 370, y: 440, type: "curve" },
-    { x: 450, y: 450, type: "curve" },
-    { x: 410, y: 470, type: "curve" },
-    { x: 390, y: 480, type: "curve" },
-    { x: 400, y: 480, type: "curve" },
-    { x: 410, y: 495, type: "curve" },
-    { x: 395, y: 520, type: "curve" },
-    { x: 380, y: 510, type: "curve" },
-    { x: 350, y: 505, type: "curve" },
-    { x: 365, y: 510, type: "curve" },
-    { x: 380, y: 540, type: "curve" },
-    { x: 420, y: 510, type: "curve" },
-    { x: 420, y: 490, type: "curve" },
-    { x: 420, y: 490, type: "curve" },
-    { x: 430, y: 520, type: "curve" },
-    { x: 400, y: 525, type: "curve" },
-    { x: 385, y: 510, type: "curve" },
-    { x: 375, y: 505, type: "curve" },
-    { x: 360, y: 495, type: "curve" },
-    { x: 360, y: 495, type: "curve" },
-    { x: 330, y: 490, type: "curve" },
-    { x: 345, y: 455, type: "curve" },
-    { x: 360, y: 490, type: "curve" },
-    { x: 320, y: 470, type: "curve" },
-    { x: 360, y: 520, type: "finish" },
-  ],
-  width: 60,
-  arrows: [
-    { x: 335, y: 465 },
-    { x: 345, y: 455 },
-    { x: 370, y: 460 },
-    { x: 390, y: 470 },
-    { x: 400, y: 485 },
-    { x: 410, y: 495 },
-    { x: 395, y: 510 },
-    { x: 370, y: 520 },
-    { x: 360, y: 500 },
-  ],
-  startPosition: { x: 360, y: 490 },
-},
+  melbourne: {
+    path: [
+      { x: 360, y: 490, type: "start" },
+      { x: 310, y: 440, type: "curve" },
+      { x: 350, y: 450, type: "curve" },
+      { x: 330, y: 450, type: "curve" },
+      { x: 370, y: 510, type: "curve" },
+      { x: 370, y: 460, type: "curve" },
+      { x: 390, y: 470, type: "curve" },
+      { x: 370, y: 440, type: "curve" },
+      { x: 450, y: 450, type: "curve" },
+      { x: 410, y: 470, type: "curve" },
+      { x: 390, y: 480, type: "curve" },
+      { x: 400, y: 480, type: "curve" },
+      { x: 410, y: 495, type: "curve" },
+      { x: 395, y: 520, type: "curve" },
+      { x: 380, y: 510, type: "curve" },
+      { x: 350, y: 505, type: "curve" },
+      { x: 365, y: 510, type: "curve" },
+      { x: 380, y: 540, type: "curve" },
+      { x: 420, y: 510, type: "curve" },
+      { x: 420, y: 490, type: "curve" },
+      { x: 420, y: 490, type: "curve" },
+      { x: 430, y: 520, type: "curve" },
+      { x: 400, y: 525, type: "curve" },
+      { x: 385, y: 510, type: "curve" },
+      { x: 375, y: 505, type: "curve" },
+      { x: 360, y: 495, type: "curve" },
+      { x: 360, y: 495, type: "curve" },
+      { x: 330, y: 490, type: "curve" },
+      { x: 345, y: 455, type: "curve" },
+      { x: 360, y: 490, type: "curve" },
+      { x: 320, y: 470, type: "curve" },
+      { x: 360, y: 520, type: "finish" },
+    ],
+    width: 60,
+    arrows: [
+      { x: 335, y: 465 },
+      { x: 345, y: 455 },
+      { x: 370, y: 460 },
+      { x: 390, y: 470 },
+      { x: 400, y: 485 },
+      { x: 410, y: 495 },
+      { x: 395, y: 510 },
+      { x: 370, y: 520 },
+      { x: 360, y: 500 },
+    ],
+    startPosition: { x: 360, y: 490 },
+  },
   monaco: {
     path: [
-      { x: 80,  y: 275, type: "start" },
+      { x: 80, y: 275, type: "start" },
       { x: 160, y: 200, type: "curve" },
       { x: 270, y: 170, type: "straight" },
       { x: 380, y: 190, type: "curve" },
@@ -214,21 +219,27 @@ const TRACK_LAYOUTS = {
       { x: 380, y: 430, type: "curve" },
       { x: 260, y: 455, type: "curve" },
       { x: 150, y: 415, type: "curve" },
-      { x: 95,  y: 330, type: "curve" },
-      { x: 80,  y: 275, type: "finish" },
+      { x: 95, y: 330, type: "curve" },
+      { x: 80, y: 275, type: "finish" },
     ],
     width: 55,
     arrows: [
-      { x: 120, y: 235 }, { x: 225, y: 180 }, { x: 335, y: 185 },
-      { x: 440, y: 235 }, { x: 455, y: 315 }, { x: 410, y: 400 },
-      { x: 300, y: 445 }, { x: 185, y: 425 }, { x: 115, y: 345 },
+      { x: 120, y: 235 },
+      { x: 225, y: 180 },
+      { x: 335, y: 185 },
+      { x: 440, y: 235 },
+      { x: 455, y: 315 },
+      { x: 410, y: 400 },
+      { x: 300, y: 445 },
+      { x: 185, y: 425 },
+      { x: 115, y: 345 },
     ],
     startPosition: { x: 80, y: 275 },
   },
 
   silverstone: {
     path: [
-      { x: 90,  y: 260, type: "start" },
+      { x: 90, y: 260, type: "start" },
       { x: 190, y: 190, type: "curve" },
       { x: 320, y: 170, type: "straight" },
       { x: 420, y: 210, type: "curve" },
@@ -237,13 +248,18 @@ const TRACK_LAYOUTS = {
       { x: 300, y: 430, type: "curve" },
       { x: 180, y: 430, type: "curve" },
       { x: 110, y: 350, type: "curve" },
-      { x: 90,  y: 260, type: "finish" },
+      { x: 90, y: 260, type: "finish" },
     ],
     width: 60,
     arrows: [
-      { x: 140, y: 215 }, { x: 260, y: 175 }, { x: 375, y: 195 },
-      { x: 455, y: 265 }, { x: 440, y: 350 }, { x: 350, y: 415 },
-      { x: 235, y: 430 }, { x: 135, y: 360 },
+      { x: 140, y: 215 },
+      { x: 260, y: 175 },
+      { x: 375, y: 195 },
+      { x: 455, y: 265 },
+      { x: 440, y: 350 },
+      { x: 350, y: 415 },
+      { x: 235, y: 430 },
+      { x: 135, y: 360 },
     ],
     startPosition: { x: 90, y: 260 },
   },
@@ -263,9 +279,14 @@ const TRACK_LAYOUTS = {
     ],
     width: 65,
     arrows: [
-      { x: 175, y: 255 }, { x: 265, y: 195 }, { x: 385, y: 195 },
-      { x: 455, y: 240 }, { x: 445, y: 330 }, { x: 365, y: 410 },
-      { x: 255, y: 430 }, { x: 165, y: 360 },
+      { x: 175, y: 255 },
+      { x: 265, y: 195 },
+      { x: 385, y: 195 },
+      { x: 455, y: 240 },
+      { x: 445, y: 330 },
+      { x: 365, y: 410 },
+      { x: 255, y: 430 },
+      { x: 165, y: 360 },
     ],
     startPosition: { x: 140, y: 300 },
   },
@@ -284,9 +305,14 @@ const TRACK_LAYOUTS = {
     ],
     width: 60,
     arrows: [
-      { x: 180, y: 180 }, { x: 300, y: 170 }, { x: 420, y: 200 },
-      { x: 450, y: 300 }, { x: 420, y: 400 }, { x: 300, y: 430 },
-      { x: 180, y: 410 }, { x: 130, y: 305 },
+      { x: 180, y: 180 },
+      { x: 300, y: 170 },
+      { x: 420, y: 200 },
+      { x: 450, y: 300 },
+      { x: 420, y: 400 },
+      { x: 300, y: 430 },
+      { x: 180, y: 410 },
+      { x: 130, y: 305 },
     ],
     startPosition: { x: 120, y: 200 },
   },
@@ -306,9 +332,14 @@ const TRACK_LAYOUTS = {
     ],
     width: 55,
     arrows: [
-      { x: 150, y: 210 }, { x: 270, y: 180 }, { x: 380, y: 195 },
-      { x: 455, y: 265 }, { x: 435, y: 350 }, { x: 335, y: 410 },
-      { x: 225, y: 420 }, { x: 145, y: 310 },
+      { x: 150, y: 210 },
+      { x: 270, y: 180 },
+      { x: 380, y: 195 },
+      { x: 455, y: 265 },
+      { x: 435, y: 350 },
+      { x: 335, y: 410 },
+      { x: 225, y: 420 },
+      { x: 145, y: 310 },
     ],
     startPosition: { x: 110, y: 250 },
   },
@@ -328,9 +359,14 @@ const TRACK_LAYOUTS = {
     ],
     width: 60,
     arrows: [
-      { x: 180, y: 280 }, { x: 260, y: 205 }, { x: 375, y: 195 },
-      { x: 455, y: 265 }, { x: 445, y: 360 }, { x: 355, y: 420 },
-      { x: 245, y: 430 }, { x: 170, y: 360 },
+      { x: 180, y: 280 },
+      { x: 260, y: 205 },
+      { x: 375, y: 195 },
+      { x: 455, y: 265 },
+      { x: 445, y: 360 },
+      { x: 355, y: 420 },
+      { x: 245, y: 430 },
+      { x: 170, y: 360 },
     ],
     startPosition: { x: 150, y: 330 },
   },
@@ -351,9 +387,15 @@ const TRACK_LAYOUTS = {
     ],
     width: 58,
     arrows: [
-      { x: 155, y: 235 }, { x: 255, y: 180 }, { x: 370, y: 185 },
-      { x: 455, y: 250 }, { x: 450, y: 335 }, { x: 385, y: 410 },
-      { x: 275, y: 445 }, { x: 175, y: 405 }, { x: 130, y: 335 },
+      { x: 155, y: 235 },
+      { x: 255, y: 180 },
+      { x: 370, y: 185 },
+      { x: 455, y: 250 },
+      { x: 450, y: 335 },
+      { x: 385, y: 410 },
+      { x: 275, y: 445 },
+      { x: 175, y: 405 },
+      { x: 130, y: 335 },
     ],
     startPosition: { x: 120, y: 280 },
   },
@@ -531,6 +573,7 @@ export default function HotlapShowdown() {
   // Update car position based on keys
   const updateCar = (keys) => {
     const car = carRef.current
+    const FIXED_SPEED = 2.5 // Fixed speed constant
 
     // Handle steering
     if (keys.ArrowLeft) {
@@ -540,9 +583,12 @@ export default function HotlapShowdown() {
       car.angle += 0.06
     }
 
-    // Move car forward
-    car.x += Math.sin(car.angle) * car.speed
-    car.y -= Math.cos(car.angle) * car.speed
+    // Move car forward at absolutely constant speed
+    if (car.speed > 0) {
+      // Use fixed speed value instead of car.speed to prevent any acceleration
+      car.x += Math.sin(car.angle) * FIXED_SPEED
+      car.y -= Math.cos(car.angle) * FIXED_SPEED
+    }
   }
 
   // Set assets loaded immediately since we're drawing the car with canvas
@@ -554,29 +600,23 @@ export default function HotlapShowdown() {
   useEffect(() => {
     setIsLoading(true)
 
-    // Determine current track based on time
+    // Determine current track based on time - switch every 30 minutes
     const determineTrack = () => {
       const now = new Date()
-      const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24))
-      const halfDayOfYear = Math.floor(dayOfYear * 2 + now.getHours() / 12)
-      const trackIndex = halfDayOfYear % F1_TRACKS.length
+      const minutesSinceMidnight = now.getHours() * 60 + now.getMinutes()
+      const trackIndex = Math.floor(minutesSinceMidnight / 30) % F1_TRACKS.length
       return F1_TRACKS[trackIndex]
     }
 
     // Calculate time until next track
     const calculateNextTrackTime = () => {
       const now = new Date()
-      const nextTrackDate = new Date(now)
-      if (now.getHours() < 12) {
-        nextTrackDate.setHours(12, 0, 0, 0)
-      } else {
-        nextTrackDate.setHours(24, 0, 0, 0)
-      }
-      const timeRemaining = nextTrackDate - now
+      const minutesSinceMidnight = now.getHours() * 60 + now.getMinutes()
+      const minutesUntilNext = 30 - (minutesSinceMidnight % 30)
 
-      const hours = Math.floor(timeRemaining / (1000 * 60 * 60))
-      const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000)
+      const hours = Math.floor(minutesUntilNext / 60)
+      const minutes = minutesUntilNext % 60
+      const seconds = 60 - now.getSeconds()
 
       return `${hours.toString().padStart(2, "0")}h ${minutes.toString().padStart(2, "0")}m ${seconds.toString().padStart(2, "0")}s`
     }
@@ -588,19 +628,16 @@ export default function HotlapShowdown() {
     trackRef.current.layout = TRACK_LAYOUTS[track.id] || DEFAULT_TRACK
     setNextTrackTime(calculateNextTrackTime())
 
-    // Update next track time every second
+    // Update next track time every second and check for track changes
     const interval = setInterval(() => {
-  const newTime = calculateNextTrackTime()
-  setNextTrackTime(newTime)
+      const newTime = calculateNextTrackTime()
+      setNextTrackTime(newTime)
 
-  const freshTrack = determineTrack()
-  setCurrentTrack((prevTrack) => {
-    if (prevTrack?.id !== freshTrack.id) {
-      return freshTrack
-    }
-    return prevTrack
-  })
-}, 1000)
+      const freshTrack = determineTrack()
+      if (currentTrack?.id !== freshTrack.id) {
+        setCurrentTrack(freshTrack)
+      }
+    }, 1000)
 
     // Load leaderboard
     loadLeaderboard(track.id).then(() => {
@@ -633,6 +670,7 @@ export default function HotlapShowdown() {
     carRef.current.x = startPos.x
     carRef.current.y = startPos.y
     carRef.current.angle = startAngle
+    carRef.current.speed = 0 // Start idle
 
     return () => clearInterval(interval)
   }, [])
@@ -797,7 +835,7 @@ export default function HotlapShowdown() {
     car.checkpoint = 0
     car.lapStartTime = 0
     car.onTrack = true
-    car.speed = 0 // Reset to idle
+    car.speed = 0 // Reset to idle speed
 
     timerRef.current.start = 0
     timerRef.current.current = 0
@@ -822,7 +860,7 @@ export default function HotlapShowdown() {
     }
 
     const car = carRef.current
-    car.speed = 2.5 // Set normal speed
+    car.speed = 2.5 // Set flag that car is moving, but use FIXED_SPEED in updateCar
     car.lapStartTime = Date.now()
     timerRef.current.start = Date.now()
 
@@ -1282,27 +1320,54 @@ export default function HotlapShowdown() {
       }
     }
   }
-useEffect(() => {
-  if (!currentTrack) return
+  useEffect(() => {
+    if (!currentTrack) return
 
-  // Update trackRef with new layout
-  trackRef.current.id = currentTrack.id
-  trackRef.current.layout = TRACK_LAYOUTS[currentTrack.id] || DEFAULT_TRACK
+    // Store current speed before track change
+    const currentSpeed = carRef.current.speed
+    const wasPlaying = gameState === "playing"
 
-  // Reset car position for new track
-  resetCar()
+    // Update trackRef with new layout
+    trackRef.current.id = currentTrack.id
+    trackRef.current.layout = TRACK_LAYOUTS[currentTrack.id] || DEFAULT_TRACK
 
-  // Redraw canvas with new track
-  const canvas = canvasRef.current
-  if (canvas) {
-    const ctx = canvas.getContext("2d")
-    drawTrack(ctx)
-    drawCar(ctx)
-  }
+    // Reset car position for new track but preserve speed if playing
+    const path = trackRef.current.layout.path
+    const startPos = trackRef.current.layout.startPosition
+    const startAngle = getAngleBetween(path[0], path[1]) + Math.PI / 2
 
-  // Load leaderboard for new track
-  loadLeaderboard(currentTrack.id)
-}, [currentTrack?.id])
+    carRef.current.x = startPos.x
+    carRef.current.y = startPos.y
+    carRef.current.angle = startAngle
+    carRef.current.lap = 0
+    carRef.current.checkpoint = 0
+    carRef.current.onTrack = true
+
+    // Preserve speed if game was playing, otherwise reset to 0
+    if (wasPlaying) {
+      carRef.current.speed = currentSpeed || 2.5 // Maintain speed or set to default playing speed
+      carRef.current.lapStartTime = Date.now() // Reset lap timer
+      // Reset sector timing
+      sectorStartTimeRef.current = Date.now()
+      sectorTimesRef.current = [0, 0, 0]
+      setCurrentSector(0)
+      timerRef.current.start = Date.now()
+    } else {
+      carRef.current.speed = 0 // Idle speed
+      carRef.current.lapStartTime = 0
+    }
+
+    // Redraw canvas with new track
+    const canvas = canvasRef.current
+    if (canvas) {
+      const ctx = canvas.getContext("2d")
+      drawTrack(ctx)
+      drawCar(ctx)
+    }
+
+    // Load leaderboard for new track
+    loadLeaderboard(currentTrack.id)
+  }, [currentTrack])
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-6xl mx-auto p-4 font-mono">
       <h1 className="text-2xl md:text-4xl font-bold mb-2 tracking-wider">HOTLAP SHOWDOWN</h1>
