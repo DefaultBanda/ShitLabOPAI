@@ -1095,7 +1095,7 @@ export default function HotlapShowdown() {
     }
 
     const car = carRef.current
-    car.speed = 2.5 // Set normal speed
+    car.speed = 2.0 // Set normal speed (slightly reduced)
     car.lapStartTime = Date.now()
     timerRef.current.start = Date.now()
 
