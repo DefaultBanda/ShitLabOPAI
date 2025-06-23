@@ -1095,8 +1095,9 @@ export default function HotlapShowdown() {
     }
 
     const car = carRef.current
-    // Slow down the car a bit so laps aren't completed too quickly
-    car.speed = 1.6 // Set moderate speed
+    // Set a slightly slower speed so laps aren't completed too quickly
+    // but still feel snappy
+    car.speed = 1.3
     car.lapStartTime = Date.now()
     timerRef.current.start = Date.now()
 
