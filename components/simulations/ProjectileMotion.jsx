@@ -25,6 +25,7 @@ export default function ProjectileMotion() {
   const [advancedOn, setAdvancedOn] = useState(false)
   const [launchKey, setLaunchKey] = useState(0)
   const [isLaunched, setIsLaunched] = useState(false)
+  const [stats, setStats] = useState(null)
 
   // Refs
   const xyRef = useRef(null)
@@ -47,11 +48,13 @@ export default function ProjectileMotion() {
   const handleLaunch = () => {
     setLaunchKey((k) => k + 1)
     setIsLaunched(true)
+    setStats(null)
   }
 
   // Reset simulation
   const handleReset = () => {
     setIsLaunched(false)
+    setStats(null)
     // We don't reset launchKey here to avoid triggering a new launch
   }
 
@@ -224,7 +227,10 @@ export default function ProjectileMotion() {
               launchKey={launchKey}
               onFrame={updateVelocity}
               isLaunched={isLaunched}
-              onComplete={() => setIsLaunched(false)}
+              onComplete={(stats) => {
+                setIsLaunched(false)
+                setStats(stats)
+              }}
             />
           </div>
 
@@ -244,6 +250,20 @@ export default function ProjectileMotion() {
                 currentVy={velocityRef.current.vy}
                 isLaunched={isLaunched}
               />
+            </motion.div>
+          )}
+
+          {stats && (
+            <motion.div
+              className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">Results</h3>
+              <p className="text-sm">Time of Flight: {stats.time.toFixed(2)} s</p>
+              <p className="text-sm">Range: {stats.range.toFixed(2)} m</p>
+              <p className="text-sm">Max Height: {stats.maxHeight.toFixed(2)} m</p>
             </motion.div>
           )}
         </motion.div>

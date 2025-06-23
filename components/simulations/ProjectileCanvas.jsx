@@ -32,7 +32,12 @@ export default function ProjectileCanvas({
     particles: [],
     isLaunched: false,
     isGrounded: false,
+    maxHeight: 0,
+    groundY: 0,
   })
+
+  // Track timestamp for variable frame timing
+  const lastTimeRef = useRef(null)
 
   // Scaling factor (pixels per meter)
   const SCALE = 20
@@ -58,6 +63,8 @@ export default function ProjectileCanvas({
     const groundY = canvas.height - 20
     const initialHeightPixels = initialHeight * SCALE
     state.y = groundY - initialHeightPixels
+    state.groundY = groundY
+    state.maxHeight = initialHeight
 
     state.path = [[state.x * SCALE, state.y]]
     state.particles = []
@@ -70,7 +77,10 @@ export default function ProjectileCanvas({
     }
 
     // Start animation loop
-    const animate = () => {
+    const animate = (timestamp) => {
+      if (lastTimeRef.current == null) lastTimeRef.current = timestamp
+      const dt = Math.min((timestamp - lastTimeRef.current) / 1000, 0.05)
+      lastTimeRef.current = timestamp
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -82,7 +92,6 @@ export default function ProjectileCanvas({
 
       // Update physics if launched and not grounded
       if (state.isLaunched && !state.isGrounded) {
-        const dt = 1 / 60 // Approximate frame time in seconds
 
         if (advanced) {
           // Advanced physics with air resistance and wind
@@ -112,6 +121,11 @@ export default function ProjectileCanvas({
         state.x += state.vx * dt
         state.y += state.vy * dt * SCALE // Convert y to pixels for display
 
+        const currentHeight = (state.groundY - state.y) / SCALE
+        if (currentHeight > state.maxHeight) {
+          state.maxHeight = currentHeight
+        }
+
         // Add point to trajectory (convert x to pixels for display)
         state.path.push([state.x * SCALE, state.y])
 
@@ -139,8 +153,8 @@ export default function ProjectileCanvas({
         }
 
         // Check if ball hit the ground
-        if (state.y >= canvas.height - 20) {
-          state.y = canvas.height - 20
+        if (state.y >= state.groundY) {
+          state.y = state.groundY
           state.isGrounded = true
 
           // Create impact particles
@@ -155,9 +169,12 @@ export default function ProjectileCanvas({
             })
           }
 
-          // Call onComplete callback
           if (typeof onComplete === "function") {
-            onComplete()
+            onComplete({
+              time: state.time,
+              range: state.x - 2,
+              maxHeight: state.maxHeight,
+            })
           }
         }
 
@@ -202,13 +219,14 @@ export default function ProjectileCanvas({
     }
 
     // Start animation
-    animate()
+    animationRef.current = requestAnimationFrame(animate)
 
     // Cleanup on unmount
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
+      lastTimeRef.current = null
     }
   }, [
     angle,
@@ -261,8 +279,8 @@ export default function ProjectileCanvas({
     // Draw ruler marks
     ctx.fillStyle = "#6b7280"
     for (let x = 0; x < width; x += SCALE) {
-      const height = x % (SCALE * 5) === 0 ? 10 : 5
-      ctx.fillRect(x, height - 20, 1, height)
+      const tickHeight = x % (SCALE * 5) === 0 ? 10 : 5
+      ctx.fillRect(x, height - 20, 1, tickHeight)
 
       // Add labels every 5 meters
       if (x % (SCALE * 5) === 0) {
