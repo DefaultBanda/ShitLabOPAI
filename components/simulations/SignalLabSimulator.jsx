@@ -104,21 +104,21 @@ export default function SignalLabSimulator() {
       animate={{ opacity: 1 }}
     >
       <h2 className="text-2xl font-bold">Signal Lab</h2>
-      <div className="space-y-6">
+      <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
         <Card className="bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
           <CardHeader>
             <CardTitle className="text-lg font-bold">FM Wave</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4">
             <div className="w-full flex justify-center">
               <canvas
                 ref={canvasRef}
-                width={800}
-                height={400}
-                className="w-full max-w-3xl h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
+                width={600}
+                height={300}
+                className="w-full max-w-xl h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
               />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mt-3">
               <SliderRow
                 label="Amplitude"
                 value={amplitude}
@@ -152,7 +152,7 @@ export default function SignalLabSimulator() {
           <CardHeader>
             <CardTitle className="text-lg font-bold">Wireless Bands</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="p-4 space-y-4">
             <div>
               <label className="text-sm font-medium mb-1 block">Wireless Band</label>
               <select
@@ -176,7 +176,7 @@ export default function SignalLabSimulator() {
                 </optgroup>
               </select>
             </div>
-            <Table className="text-sm">
+            <Table className="text-xs">
               <TableHeader>
                 <TableRow className="bg-indigo-500 text-white">
                   <TableHead className="text-white">Band</TableHead>
