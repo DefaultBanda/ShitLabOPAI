@@ -9,6 +9,7 @@ import Pendulum from "@/components/simulations/Pendulum"
 import WallBreakEscape from "@/components/simulations/WallBreakEscape"
 import MomentumClash from "@/components/simulations/MomentumClash"
 import SpendElonsMoney from "@/app/spend-elon/page"
+import SignalLabSimulator from "@/components/simulations/SignalLabSimulator"
 
 // Dynamically import WaveSimulator with SSR disabled
 // This prevents hydration errors with Three.js components
@@ -40,6 +41,8 @@ export default function SimulationPage({ params }) {
         return <WallBreakEscape />
       case "momentum-clash":
         return <MomentumClash />
+      case "signal-lab":
+        return <SignalLabSimulator />
       case "spend-elon":
         return <SpendElonsMoney />
       default:
