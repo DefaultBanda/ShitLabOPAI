@@ -35,6 +35,7 @@ Make sure you have a valid `wrangler.toml` with the correct `name`, `compatibili
 ## Available Simulations
 
 - **Photoelectric Effect** – Explore how light intensity, wavelength and voltage affect electron emission in a Phet-style setup.
+- **Signal Lab** – Visualize amplitude-modulated signals and compare wireless bands with penetration ratings.
 
 ## Grade Calculator Modes
 
