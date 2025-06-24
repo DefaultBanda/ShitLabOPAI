@@ -3,11 +3,33 @@
 import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
 import SliderRow from "../ui/SliderRow"
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableCell,
+} from "../ui/table"
 
 const BANDS = [
-  { id: "900mhz", label: "900 MHz", freq: 0.9 },
-  { id: "2.4ghz", label: "2.4 GHz", freq: 2.4 },
-  { id: "5ghz", label: "5 GHz", freq: 5 },
+  { id: "nfc", label: "NFC", freq: 0.01356, penetration: "Very High" },
+  { id: "sigfox", label: "Sigfox", freq: 0.868, penetration: "Very High" },
+  { id: "zwave", label: "Z-Wave", freq: 0.9, penetration: "Very High" },
+  { id: "lora", label: "LoRa", freq: 0.915, penetration: "Very High" },
+  { id: "dect", label: "DECT 1.9 GHz", freq: 1.9, penetration: "High" },
+  { id: "bluetooth", label: "Bluetooth Classic", freq: 2.4, penetration: "High" },
+  { id: "ble", label: "Bluetooth LE", freq: 2.4, penetration: "High" },
+  { id: "zigbee", label: "Zigbee", freq: 2.4, penetration: "High" },
+  { id: "wifi4-24", label: "Wi-Fi 4 2.4 GHz", freq: 2.4, penetration: "High" },
+  { id: "wifi4-5", label: "Wi-Fi 4 5 GHz", freq: 5, penetration: "Medium" },
+  { id: "wifi5", label: "Wi-Fi 5 GHz", freq: 5, penetration: "Medium" },
+  { id: "wifi6e", label: "Wi-Fi 6E 6 GHz", freq: 6, penetration: "Low" },
+  { id: "wifi7", label: "Wi-Fi 7 6 GHz", freq: 6, penetration: "Low" },
+  { id: "lte", label: "LTE", freq: 1.8, penetration: "High" },
+  { id: "5g-low", label: "5G Low-band", freq: 0.7, penetration: "High" },
+  { id: "5g-mid", label: "5G mid-band", freq: 3.5, penetration: "Medium" },
+  { id: "5g-mm", label: "5G mmWave", freq: 28, penetration: "Very Low" },
 ]
 
 export default function SignalLabSimulator() {
@@ -17,6 +39,7 @@ export default function SignalLabSimulator() {
   const [modIndex, setModIndex] = useState(1)
   const canvasRef = useRef(null)
   const animRef = useRef(null)
+  const timeRef = useRef(0)
 
   const carrierFreq = BANDS.find((b) => b.id === band)?.freq || 0.9
 
@@ -35,7 +58,7 @@ export default function SignalLabSimulator() {
       ctx.beginPath()
 
       for (let x = 0; x < width; x++) {
-        const t = (x / width) * 4
+        const t = (x / width) * 4 + timeRef.current
         const y =
           amplitude *
           Math.sin(
@@ -51,6 +74,7 @@ export default function SignalLabSimulator() {
       }
 
       ctx.stroke()
+      timeRef.current += 0.02
       animRef.current = requestAnimationFrame(draw)
     }
 
@@ -80,6 +104,30 @@ export default function SignalLabSimulator() {
                 </option>
               ))}
             </select>
+            <Table className="text-sm mt-4">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Band</TableHead>
+                  <TableHead>Freq (GHz)</TableHead>
+                  <TableHead>Penetration</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {BANDS.map((b) => (
+                  <TableRow
+                    key={b.id}
+                    className={b.id === band ? "bg-blue-100 dark:bg-gray-700" : ""}
+                  >
+                    <TableCell>{b.label}</TableCell>
+                    <TableCell>{b.freq}</TableCell>
+                    <TableCell>{b.penetration}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <p className="text-xs text-gray-500 mt-2">
+              Frequency: {carrierFreq} GHz
+            </p>
           </div>
           <SliderRow
             label="Amplitude"
