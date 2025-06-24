@@ -106,6 +106,13 @@ export default function HomePage() {
       color: "from-green-600 to-emerald-400",
       icon: "📈",
     },
+    {
+      id: "signal-lab",
+      title: "Signal Lab",
+      description: "Visualize wireless bands and FM signals",
+      color: "from-purple-600 to-pink-500",
+      icon: "📡",
+    },
   ]
 
   const handleSelectGame = (gameId) => {
