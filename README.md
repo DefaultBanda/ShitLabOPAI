@@ -32,6 +32,9 @@ npx wrangler deploy
 
 Make sure you have a valid `wrangler.toml` with the correct `name`, `compatibility_date`, and `main` entry point before deploying.
 
+## Available Simulations
+
+- **Photoelectric Effect** – Explore how light intensity, wavelength and voltage affect electron emission in a Phet-style setup.
 
 ## Grade Calculator Modes
 
