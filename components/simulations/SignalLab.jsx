@@ -5,13 +5,19 @@ import SliderRow from "@/components/ui/SliderRow"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar } from "recharts"
 
 const BANDS = [
+  { name: "NFC", freq: 0.01356, penetration: "Very High" },
+  { name: "Sigfox", freq: 0.868, penetration: "Very High" },
   { name: "Z-Wave", freq: 0.9, penetration: "Very High" },
   { name: "LoRa", freq: 0.915, penetration: "Very High" },
-  { name: "Bluetooth", freq: 2.4, penetration: "High" },
+  { name: "DECT 1.9 GHz", freq: 1.9, penetration: "High" },
+  { name: "Bluetooth Classic", freq: 2.4, penetration: "High" },
+  { name: "Bluetooth LE", freq: 2.4, penetration: "High" },
   { name: "Zigbee", freq: 2.4, penetration: "High" },
-  { name: "Wi-Fi 2.4 GHz", freq: 2.4, penetration: "High" },
+  { name: "Wi-Fi 4 2.4 GHz", freq: 2.4, penetration: "High" },
+  { name: "Wi-Fi 4 5 GHz", freq: 5, penetration: "Medium" },
   { name: "Wi-Fi 5 GHz", freq: 5, penetration: "Medium" },
   { name: "Wi-Fi 6E 6 GHz", freq: 6, penetration: "Low" },
+  { name: "Wi-Fi 7 6 GHz", freq: 6, penetration: "Low" },
   { name: "LTE", freq: 1.8, penetration: "High" },
   { name: "5G Low-band", freq: 0.7, penetration: "High" },
   { name: "5G mid-band", freq: 3.5, penetration: "Medium" },
@@ -163,11 +169,12 @@ export default function SignalLab() {
                 ))}
               </select>
             </label>
+            <div className="text-sm">Band {bandIndex + 1} / {BANDS.length}</div>
             <div className="text-sm">Frequency: {band.freq} GHz</div>
-            <div className="text-sm">Penetration: {band.penetration}</div>
-            <div className="h-2 w-full bg-gray-300 rounded">
+            <div className="text-sm">Penetration: {band.penetration} ({PEN_LEVEL[band.penetration]}%)</div>
+            <div className="h-2 w-full bg-gray-200 rounded overflow-hidden">
               <div
-                className="h-2 rounded bg-blue-500"
+                className="h-full bg-gradient-to-r from-green-400 via-yellow-300 to-red-500"
                 style={{ width: `${PEN_LEVEL[band.penetration]}%` }}
               />
             </div>
@@ -180,8 +187,8 @@ export default function SignalLab() {
                 </tr>
               </thead>
               <tbody>
-                {BANDS.map((b) => (
-                  <tr key={b.name} className="border-t">
+                {BANDS.map((b, i) => (
+                  <tr key={b.name} className={`border-t ${i === bandIndex ? 'bg-blue-100 dark:bg-blue-900' : ''}` }>
                     <td className="px-2 py-1">{b.name}</td>
                     <td className="px-2 py-1 text-center">{b.freq}</td>
                     <td className="px-2 py-1">{b.penetration}</td>
