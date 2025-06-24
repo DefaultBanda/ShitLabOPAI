@@ -11,6 +11,12 @@ import {
   TableRow,
   TableCell,
 } from "../ui/table"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
 
 // Split the spectrum into non-ionizing and ionizing categories
 const NON_IONIZING_BANDS = [
@@ -93,121 +99,135 @@ export default function SignalLabSimulator() {
 
   return (
     <motion.div
-      className="space-y-6 p-6 bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 rounded-xl"
+      className="space-y-6 p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
       <h2 className="text-2xl font-bold">Signal Lab</h2>
-      <div className="w-full flex justify-center">
-        <canvas
-          ref={canvasRef}
-          width={800}
-          height={400}
-          className="w-full max-w-3xl h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
-        />
-      </div>
-      <div className="flex flex-col gap-6 text-sm">
-        <div className="space-y-4">
-          <label className="text-sm font-medium mb-1 block">Wireless Band</label>
-          <select
-            value={band}
-            onChange={(e) => setBand(e.target.value)}
-            className="w-full p-2 rounded-md bg-gray-100 dark:bg-gray-800"
-          >
-            <optgroup label="Non-Ionizing">
-              {NON_IONIZING_BANDS.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.label}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Ionizing">
-              {IONIZING_BANDS.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.label}
-                </option>
-              ))}
-            </optgroup>
-          </select>
-          <Table className="text-sm mt-4">
-            <TableHeader>
-              <TableRow className="bg-indigo-500 text-white">
-                <TableHead className="text-white">Band</TableHead>
-                <TableHead className="text-white">Freq (GHz)</TableHead>
-                <TableHead className="text-white">Penetration</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell colSpan={3} className="font-semibold bg-green-200 dark:bg-green-900">
-                  Non-Ionizing
-                </TableCell>
-              </TableRow>
-              {NON_IONIZING_BANDS.map((b) => (
-                <TableRow
-                  key={b.id}
-                  className={
-                    b.id === band
-                      ? "bg-blue-200 dark:bg-blue-700"
-                      : "bg-green-50 dark:bg-green-800"
-                  }
-                >
-                  <TableCell>{b.label}</TableCell>
-                  <TableCell>{b.freq}</TableCell>
-                  <TableCell>{b.penetration}</TableCell>
+      <div className="space-y-6">
+        <Card className="bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
+          <CardHeader>
+            <CardTitle className="text-lg font-bold">FM Wave</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="w-full flex justify-center">
+              <canvas
+                ref={canvasRef}
+                width={800}
+                height={400}
+                className="w-full max-w-3xl h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mt-4">
+              <SliderRow
+                label="Amplitude"
+                value={amplitude}
+                min={10}
+                max={100}
+                step={1}
+                onChange={setAmplitude}
+                unit=" px"
+              />
+              <SliderRow
+                label="Modulating Freq"
+                value={modFreq}
+                min={0.1}
+                max={5}
+                step={0.1}
+                onChange={setModFreq}
+                unit=" kHz"
+              />
+              <SliderRow
+                label="Modulation Index"
+                value={modIndex}
+                min={0}
+                max={5}
+                step={0.1}
+                onChange={setModIndex}
+              />
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-700 text-sm">
+          <CardHeader>
+            <CardTitle className="text-lg font-bold">Wireless Bands</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block">Wireless Band</label>
+              <select
+                value={band}
+                onChange={(e) => setBand(e.target.value)}
+                className="w-full p-2 rounded-md bg-gray-100 dark:bg-gray-800"
+              >
+                <optgroup label="Non-Ionizing">
+                  {NON_IONIZING_BANDS.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.label}
+                    </option>
+                  ))}
+                </optgroup>
+                <optgroup label="Ionizing">
+                  {IONIZING_BANDS.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.label}
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            </div>
+            <Table className="text-sm">
+              <TableHeader>
+                <TableRow className="bg-indigo-500 text-white">
+                  <TableHead className="text-white">Band</TableHead>
+                  <TableHead className="text-white">Freq (GHz)</TableHead>
+                  <TableHead className="text-white">Penetration</TableHead>
                 </TableRow>
-              ))}
-              <TableRow>
-                <TableCell colSpan={3} className="font-semibold bg-red-200 dark:bg-red-900">
-                  Ionizing
-                </TableCell>
-              </TableRow>
-              {IONIZING_BANDS.map((b) => (
-                <TableRow
-                  key={b.id}
-                  className={
-                    b.id === band
-                      ? "bg-blue-200 dark:bg-blue-700"
-                      : "bg-red-50 dark:bg-red-800"
-                  }
-                >
-                  <TableCell>{b.label}</TableCell>
-                  <TableCell>{b.freq}</TableCell>
-                  <TableCell>{b.penetration}</TableCell>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell colSpan={3} className="font-semibold bg-green-200 dark:bg-green-900">
+                    Non-Ionizing
+                  </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <p className="text-xs text-gray-500 mt-2">Frequency: {carrierFreq} GHz</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-          <SliderRow
-            label="Amplitude"
-            value={amplitude}
-            min={10}
-            max={100}
-            step={1}
-            onChange={setAmplitude}
-            unit=" px"
-          />
-          <SliderRow
-            label="Modulating Freq"
-            value={modFreq}
-            min={0.1}
-            max={5}
-            step={0.1}
-            onChange={setModFreq}
-            unit=" kHz"
-          />
-          <SliderRow
-            label="Modulation Index"
-            value={modIndex}
-            min={0}
-            max={5}
-            step={0.1}
-            onChange={setModIndex}
-          />
-        </div>
+                {NON_IONIZING_BANDS.map((b) => (
+                  <TableRow
+                    key={b.id}
+                    className={
+                      b.id === band
+                        ? "bg-blue-200 dark:bg-blue-700"
+                        : "bg-green-50 dark:bg-green-800"
+                    }
+                  >
+                    <TableCell>{b.label}</TableCell>
+                    <TableCell>{b.freq}</TableCell>
+                    <TableCell>{b.penetration}</TableCell>
+                  </TableRow>
+                ))}
+                <TableRow>
+                  <TableCell colSpan={3} className="font-semibold bg-red-200 dark:bg-red-900">
+                    Ionizing
+                  </TableCell>
+                </TableRow>
+                {IONIZING_BANDS.map((b) => (
+                  <TableRow
+                    key={b.id}
+                    className={
+                      b.id === band
+                        ? "bg-blue-200 dark:bg-blue-700"
+                        : "bg-red-50 dark:bg-red-800"
+                    }
+                  >
+                    <TableCell>{b.label}</TableCell>
+                    <TableCell>{b.freq}</TableCell>
+                    <TableCell>{b.penetration}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <p className="text-xs text-gray-500">Frequency: {carrierFreq} GHz</p>
+          </CardContent>
+        </Card>
       </div>
     </motion.div>
   )
