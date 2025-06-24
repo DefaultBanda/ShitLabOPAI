@@ -4,6 +4,14 @@ import { useRef, useState, useEffect } from "react"
 import SliderRow from "@/components/ui/SliderRow"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar } from "recharts"
 
+const BANDS = [
+  { name: "Wi-Fi 2.4 GHz", freq: 2.4, penetration: "High" },
+  { name: "Wi-Fi 5 GHz", freq: 5, penetration: "Medium" },
+  { name: "LTE", freq: 1.8, penetration: "High" },
+  { name: "5G mid-band", freq: 3.5, penetration: "Medium" },
+  { name: "5G mmWave", freq: 28, penetration: "Low" },
+]
+
 export default function SignalLab() {
   const canvasRef = useRef(null)
   const animationRef = useRef(null)
@@ -94,6 +102,27 @@ export default function SignalLab() {
               <Tooltip />
               <Bar dataKey="mag" fill="#38bdf8" />
             </BarChart>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Wireless Bands</h3>
+            <table className="w-full text-sm border">
+              <thead>
+                <tr className="bg-gray-50 dark:bg-gray-800">
+                  <th className="px-2 py-1 text-left">Band</th>
+                  <th className="px-2 py-1">Frequency (GHz)</th>
+                  <th className="px-2 py-1 text-left">Penetration</th>
+                </tr>
+              </thead>
+              <tbody>
+                {BANDS.map((b) => (
+                  <tr key={b.name} className="border-t">
+                    <td className="px-2 py-1">{b.name}</td>
+                    <td className="px-2 py-1 text-center">{b.freq}</td>
+                    <td className="px-2 py-1">{b.penetration}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
