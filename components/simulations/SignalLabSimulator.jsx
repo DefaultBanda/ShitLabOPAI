@@ -239,7 +239,8 @@ export default function SignalLabSimulator() {
     >
       <h2 className="text-2xl font-bold">Signal Lab</h2>
       <div className="space-y-6 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
-        <Card className="lg:col-span-2 bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
+        <div className="lg:col-span-2 space-y-6">
+          <Card className="bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
           <CardHeader>
             <CardTitle className="text-lg font-bold">FM Wave</CardTitle>
           </CardHeader>
@@ -251,8 +252,87 @@ export default function SignalLabSimulator() {
               className="w-full max-w-lg h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
             />
           </CardContent>
-        </Card>
-        <Card className="lg:row-span-2 bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-700 text-sm">
+          </Card>
+          <Card className="bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
+            <CardHeader>
+              <CardTitle className="text-lg font-bold">Controls</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <SliderRow
+                className="mb-2"
+                label="Carrier Freq"
+                value={carrierFreq}
+                min={0.01}
+                max={30}
+                step={0.01}
+                onChange={setCarrierFreq}
+                unit=" GHz"
+              />
+              <SliderRow
+                className="mb-2"
+                label="Amplitude"
+                value={amplitude}
+                min={10}
+                max={100}
+                step={1}
+                onChange={setAmplitude}
+                unit=" px"
+              />
+              <SliderRow
+                className="mb-2"
+                label="Modulating Freq"
+                value={modFreq}
+                min={0.1}
+                max={5}
+                step={0.1}
+                onChange={setModFreq}
+                unit=" kHz"
+              />
+              <SliderRow
+                className="mb-2"
+                label="Modulation Index"
+                value={modIndex}
+                min={0}
+                max={5}
+                step={0.1}
+                onChange={setModIndex}
+              />
+              <SliderRow
+                className="mb-2"
+                label="Phase Shift"
+                value={phaseShift}
+                min={0}
+                max={6.28}
+                step={0.1}
+                onChange={setPhaseShift}
+                unit=" rad"
+              />
+              <SliderRow
+                className="mb-2"
+                label="Speed"
+                value={speed}
+                min={0.5}
+                max={2}
+                step={0.1}
+                onChange={setSpeed}
+              />
+            </CardContent>
+          </Card>
+          <Card className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 border-2 border-gray-200 dark:border-gray-700 text-sm">
+            <CardHeader>
+              <CardTitle className="text-lg font-bold">About Signal Lab</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-2">
+              <p>
+                This simulator visualizes frequency modulation used by wireless technologies. Select a band to load its default properties, then tweak the variables to see how the carrier wave changes.
+              </p>
+              <p>
+                Non-ionizing waves like Wi-Fi and Bluetooth have much lower frequencies than ionizing waves such as X-rays. Higher frequency generally means less penetration and a shorter wavelength.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+        <Card className="lg:row-span-3 bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-900 dark:to-slate-800 border-2 border-blue-200 dark:border-blue-700 text-sm">
           <CardHeader>
             <CardTitle className="text-lg font-bold">Wireless Bands</CardTitle>
           </CardHeader>
@@ -330,78 +410,6 @@ export default function SignalLabSimulator() {
               </TableBody>
             </Table>
             <p className="text-xs text-gray-500">Frequency: {carrierFreq} GHz</p>
-          </CardContent>
-        </Card>
-        <Card className="lg:col-span-2 bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
-          <CardHeader>
-            <CardTitle className="text-lg font-bold">Controls</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <SliderRow
-              label="Carrier Freq"
-              value={carrierFreq}
-              min={0.01}
-              max={30}
-              step={0.01}
-              onChange={setCarrierFreq}
-              unit=" GHz"
-            />
-            <SliderRow
-              label="Amplitude"
-              value={amplitude}
-              min={10}
-              max={100}
-              step={1}
-              onChange={setAmplitude}
-              unit=" px"
-            />
-            <SliderRow
-              label="Modulating Freq"
-              value={modFreq}
-              min={0.1}
-              max={5}
-              step={0.1}
-              onChange={setModFreq}
-              unit=" kHz"
-            />
-            <SliderRow
-              label="Modulation Index"
-              value={modIndex}
-              min={0}
-              max={5}
-              step={0.1}
-              onChange={setModIndex}
-            />
-            <SliderRow
-              label="Phase Shift"
-              value={phaseShift}
-              min={0}
-              max={6.28}
-              step={0.1}
-              onChange={setPhaseShift}
-              unit=" rad"
-            />
-            <SliderRow
-              label="Speed"
-              value={speed}
-              min={0.5}
-              max={2}
-              step={0.1}
-              onChange={setSpeed}
-            />
-          </CardContent>
-        </Card>
-        <Card className="lg:col-span-3 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 border-2 border-gray-200 dark:border-gray-700 text-sm">
-          <CardHeader>
-            <CardTitle className="text-lg font-bold">About Signal Lab</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 space-y-2">
-            <p>
-              This simulator visualizes frequency modulation used by wireless technologies. Select a band to load its default properties, then tweak the variables to see how the carrier wave changes.
-            </p>
-            <p>
-              Non-ionizing waves like Wi-Fi and Bluetooth have much lower frequencies than ionizing waves such as X-rays. Higher frequency generally means less penetration and a shorter wavelength.
-            </p>
           </CardContent>
         </Card>
       </div>

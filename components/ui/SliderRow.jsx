@@ -3,7 +3,16 @@
 import { useState, useRef } from "react"
 import { motion } from "framer-motion"
 
-export default function SliderRow({ label, value, min, max, step, onChange, unit = "" }) {
+export default function SliderRow({
+  label,
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  unit = "",
+  className = "mb-3",
+}) {
   const [isEditing, setIsEditing] = useState(false)
   const [inputValue, setInputValue] = useState(value.toString())
   const inputRef = useRef(null)
@@ -49,7 +58,7 @@ export default function SliderRow({ label, value, min, max, step, onChange, unit
   }
 
   return (
-    <div className="mb-3">
+    <div className={className}>
       <label className="flex justify-between items-center text-sm mb-1">
         <span className="font-medium">{label}</span>
         {isEditing ? (
