@@ -107,6 +107,13 @@ export default function HomePage() {
       icon: "⚡"
     },
     {
+      id: "signal-lab",
+      title: "Signal Lab",
+      description: "Experiment with modulated wave signals",
+      color: "from-blue-500 to-cyan-400",
+      icon: "📶",
+    },
+    {
       id: "grade-calculator",
       title: "Final Grade Calculator",
       description: "Compute exam requirements and final grades",

@@ -1,0 +1,102 @@
+"use client"
+
+import { useRef, useState, useEffect } from "react"
+import SliderRow from "@/components/ui/SliderRow"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar } from "recharts"
+
+export default function SignalLab() {
+  const canvasRef = useRef(null)
+  const animationRef = useRef(null)
+  const timeRef = useRef(0)
+  const [carrierFreq, setCarrierFreq] = useState(5)
+  const [modFreq, setModFreq] = useState(1)
+  const [modIndex, setModIndex] = useState(0.5)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [waveData, setWaveData] = useState([])
+  const [spectrumData, setSpectrumData] = useState([])
+
+  // Compute spectrum every few frames
+  const computeSpectrum = (samples) => {
+    const N = samples.length
+    const result = []
+    for (let k = 0; k < 20; k++) {
+      let re = 0
+      let im = 0
+      for (let n = 0; n < N; n++) {
+        const angle = (-2 * Math.PI * k * n) / N
+        re += samples[n] * Math.cos(angle)
+        im += samples[n] * Math.sin(angle)
+      }
+      const mag = Math.sqrt(re * re + im * im) / N
+      result.push({ freq: k, mag })
+    }
+    return result
+  }
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext("2d")
+    const width = canvas.width
+    const height = canvas.height
+    const centerY = height / 2
+
+    const samples = []
+
+    const render = () => {
+      if (!isPlaying) return
+      ctx.clearRect(0, 0, width, height)
+      const time = timeRef.current
+      const dt = 0.02
+      const amp = 80
+      const newSamples = []
+      ctx.beginPath()
+      for (let x = 0; x < width; x++) {
+        const t = time + (x / width) * 2
+        const y = (1 + modIndex * Math.sin(2 * Math.PI * modFreq * t)) * Math.sin(2 * Math.PI * carrierFreq * t)
+        newSamples.push(y)
+        const py = centerY - y * amp
+        if (x === 0) ctx.moveTo(x, py)
+        else ctx.lineTo(x, py)
+      }
+      ctx.strokeStyle = "#2563eb"
+      ctx.lineWidth = 2
+      ctx.stroke()
+      timeRef.current += dt
+      setWaveData(newSamples.map((y, i) => ({ t: i / width, y })))
+      setSpectrumData(computeSpectrum(newSamples))
+      animationRef.current = requestAnimationFrame(render)
+    }
+    render()
+    return () => cancelAnimationFrame(animationRef.current)
+  }, [carrierFreq, modFreq, modIndex, isPlaying])
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6">
+      <h2 className="text-3xl font-bold text-center">Signal Lab</h2>
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="lg:w-1/2 space-y-4">
+          <canvas ref={canvasRef} width={600} height={300} className="w-full border rounded bg-white dark:bg-gray-900" />
+          <SliderRow label="Carrier Frequency" value={carrierFreq} min={1} max={10} step={0.1} onChange={setCarrierFreq} unit=" Hz" />
+          <SliderRow label="Modulation Frequency" value={modFreq} min={0} max={5} step={0.1} onChange={setModFreq} unit=" Hz" />
+          <SliderRow label="Modulation Index" value={modIndex} min={0} max={1} step={0.05} onChange={setModIndex} />
+          <button onClick={() => setIsPlaying(p => !p)} className="px-3 py-1 border rounded">
+            {isPlaying ? "\u23F8\uFE0F Pause" : "\u25B6\uFE0F Play"}
+          </button>
+        </div>
+        <div className="lg:w-1/2 space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Frequency Spectrum</h3>
+            <BarChart width={350} height={200} data={spectrumData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="freq" label={{ value: "Harmonic", position: "insideBottom", dy: 10 }} />
+              <YAxis label={{ value: "Magnitude", angle: -90, position: "insideLeft" }} domain={[0, 'dataMax']} />
+              <Tooltip />
+              <Bar dataKey="mag" fill="#38bdf8" />
+            </BarChart>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
