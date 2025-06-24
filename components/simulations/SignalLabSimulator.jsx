@@ -12,7 +12,8 @@ import {
   TableCell,
 } from "../ui/table"
 
-const BANDS = [
+// Split the spectrum into non-ionizing and ionizing categories
+const NON_IONIZING_BANDS = [
   { id: "nfc", label: "NFC", freq: 0.01356, penetration: "Very High" },
   { id: "sigfox", label: "Sigfox", freq: 0.868, penetration: "Very High" },
   { id: "zwave", label: "Z-Wave", freq: 0.9, penetration: "Very High" },
@@ -31,6 +32,14 @@ const BANDS = [
   { id: "5g-mid", label: "5G mid-band", freq: 3.5, penetration: "Medium" },
   { id: "5g-mm", label: "5G mmWave", freq: 28, penetration: "Very Low" },
 ]
+
+const IONIZING_BANDS = [
+  { id: "uv", label: "Ultraviolet", freq: 300000, penetration: "Very Low" },
+  { id: "xray", label: "X-Ray", freq: 3000000, penetration: "Very Low" },
+  { id: "gamma", label: "Gamma Ray", freq: 30000000, penetration: "Very Low" },
+]
+
+const BANDS = [...NON_IONIZING_BANDS, ...IONIZING_BANDS]
 
 export default function SignalLabSimulator() {
   const [band, setBand] = useState(BANDS[0].id)
@@ -84,51 +93,94 @@ export default function SignalLabSimulator() {
 
   return (
     <motion.div
-      className="space-y-6 p-6"
+      className="space-y-6 p-6 bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 rounded-xl"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
       <h2 className="text-2xl font-bold">Signal Lab</h2>
-      <div className="flex flex-col lg:flex-row gap-6">
-        <motion.div className="w-full lg:w-1/3 space-y-6">
-          <div>
-            <label className="text-sm font-medium mb-2 block">Wireless Band</label>
-            <select
-              value={band}
-              onChange={(e) => setBand(e.target.value)}
-              className="w-full p-2 rounded-md bg-gray-100 dark:bg-gray-800"
-            >
-              {BANDS.map((b) => (
+      <div className="w-full flex justify-center">
+        <canvas
+          ref={canvasRef}
+          width={800}
+          height={400}
+          className="w-full max-w-3xl h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
+        />
+      </div>
+      <div className="flex flex-col gap-6 text-sm">
+        <div className="space-y-4">
+          <label className="text-sm font-medium mb-1 block">Wireless Band</label>
+          <select
+            value={band}
+            onChange={(e) => setBand(e.target.value)}
+            className="w-full p-2 rounded-md bg-gray-100 dark:bg-gray-800"
+          >
+            <optgroup label="Non-Ionizing">
+              {NON_IONIZING_BANDS.map((b) => (
                 <option key={b.id} value={b.id}>
                   {b.label}
                 </option>
               ))}
-            </select>
-            <Table className="text-sm mt-4">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Band</TableHead>
-                  <TableHead>Freq (GHz)</TableHead>
-                  <TableHead>Penetration</TableHead>
+            </optgroup>
+            <optgroup label="Ionizing">
+              {IONIZING_BANDS.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.label}
+                </option>
+              ))}
+            </optgroup>
+          </select>
+          <Table className="text-sm mt-4">
+            <TableHeader>
+              <TableRow className="bg-indigo-500 text-white">
+                <TableHead className="text-white">Band</TableHead>
+                <TableHead className="text-white">Freq (GHz)</TableHead>
+                <TableHead className="text-white">Penetration</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell colSpan={3} className="font-semibold bg-green-200 dark:bg-green-900">
+                  Non-Ionizing
+                </TableCell>
+              </TableRow>
+              {NON_IONIZING_BANDS.map((b) => (
+                <TableRow
+                  key={b.id}
+                  className={
+                    b.id === band
+                      ? "bg-blue-200 dark:bg-blue-700"
+                      : "bg-green-50 dark:bg-green-800"
+                  }
+                >
+                  <TableCell>{b.label}</TableCell>
+                  <TableCell>{b.freq}</TableCell>
+                  <TableCell>{b.penetration}</TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {BANDS.map((b) => (
-                  <TableRow
-                    key={b.id}
-                    className={b.id === band ? "bg-blue-100 dark:bg-gray-700" : ""}
-                  >
-                    <TableCell>{b.label}</TableCell>
-                    <TableCell>{b.freq}</TableCell>
-                    <TableCell>{b.penetration}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <p className="text-xs text-gray-500 mt-2">
-              Frequency: {carrierFreq} GHz
-            </p>
-          </div>
+              ))}
+              <TableRow>
+                <TableCell colSpan={3} className="font-semibold bg-red-200 dark:bg-red-900">
+                  Ionizing
+                </TableCell>
+              </TableRow>
+              {IONIZING_BANDS.map((b) => (
+                <TableRow
+                  key={b.id}
+                  className={
+                    b.id === band
+                      ? "bg-blue-200 dark:bg-blue-700"
+                      : "bg-red-50 dark:bg-red-800"
+                  }
+                >
+                  <TableCell>{b.label}</TableCell>
+                  <TableCell>{b.freq}</TableCell>
+                  <TableCell>{b.penetration}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <p className="text-xs text-gray-500 mt-2">Frequency: {carrierFreq} GHz</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
           <SliderRow
             label="Amplitude"
             value={amplitude}
@@ -155,15 +207,7 @@ export default function SignalLabSimulator() {
             step={0.1}
             onChange={setModIndex}
           />
-        </motion.div>
-        <motion.div className="w-full lg:w-2/3">
-          <canvas
-            ref={canvasRef}
-            width={800}
-            height={400}
-            className="w-full h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
-          />
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   )
