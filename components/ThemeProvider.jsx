@@ -40,22 +40,24 @@ export default function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ isDark, toggleTheme }}>
-      <header className="container mx-auto py-4 px-4 flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-3">
-          <img src="/SimL.png" alt="Physics Lab Logo" className="h-10 w-auto block dark:hidden" />
-          <img src="/SimLD.png" alt="Physics Lab Logo" className="h-10 w-auto hidden dark:block" />
+      <div className="flex flex-col min-h-screen">
+        <header className="container mx-auto py-4 px-4 flex justify-between items-center">
+          <Link href="/" className="flex items-center space-x-3">
+            <img src="/SimL.png" alt="Physics Lab Logo" className="h-10 w-auto block dark:hidden" />
+            <img src="/SimLD.png" alt="Physics Lab Logo" className="h-10 w-auto hidden dark:block" />
           <span className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
             Sorta Works Studio
           </span>
         </Link>
         <ThemeToggle />
-      </header>
+        </header>
 
-      <main className="container mx-auto py-4 px-4">{mounted && children}</main>
+        <main className="container mx-auto py-4 px-4 flex-grow">{mounted && children}</main>
 
-      <footer className="container mx-auto py-6 px-4 text-center text-sm text-gray-500 dark:text-gray-400">
-        <p>Created by Karman B, Ramneek N, Ishvir C, and David Y</p>
-      </footer>
+        <footer className="container mx-auto py-6 px-4 text-center text-sm text-gray-500 dark:text-gray-400">
+          <p>Created by Karman B, Ramneek N, Ishvir C, and David Y</p>
+        </footer>
+      </div>
     </ThemeContext.Provider>
   )
 }

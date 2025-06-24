@@ -52,6 +52,8 @@ export default function SignalLabSimulator() {
   const [amplitude, setAmplitude] = useState(50)
   const [modFreq, setModFreq] = useState(1)
   const [modIndex, setModIndex] = useState(1)
+  const [phaseShift, setPhaseShift] = useState(0)
+  const [speed, setSpeed] = useState(1)
   const canvasRef = useRef(null)
   const animRef = useRef(null)
   const timeRef = useRef(0)
@@ -73,12 +75,12 @@ export default function SignalLabSimulator() {
       ctx.beginPath()
 
       for (let x = 0; x < width; x++) {
-        const t = (x / width) * 4 + timeRef.current
+        const t = (x / width) * speed * 4 + timeRef.current
         const y =
           amplitude *
           Math.sin(
             2 * Math.PI * carrierFreq * t +
-              modIndex * Math.sin(2 * Math.PI * modFreq * t)
+              modIndex * Math.sin(2 * Math.PI * modFreq * t + phaseShift)
           )
         const posY = centerY - y
         if (x === 0) {
@@ -89,13 +91,13 @@ export default function SignalLabSimulator() {
       }
 
       ctx.stroke()
-      timeRef.current += 0.02
+      timeRef.current += 0.02 * speed
       animRef.current = requestAnimationFrame(draw)
     }
 
     draw()
     return () => cancelAnimationFrame(animRef.current)
-  }, [amplitude, modFreq, modIndex, carrierFreq])
+  }, [amplitude, modFreq, modIndex, phaseShift, speed, carrierFreq])
 
   return (
     <motion.div
@@ -104,7 +106,7 @@ export default function SignalLabSimulator() {
       animate={{ opacity: 1 }}
     >
       <h2 className="text-2xl font-bold">Signal Lab</h2>
-      <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
+      <div className="space-y-6 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
         <Card className="bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
           <CardHeader>
             <CardTitle className="text-lg font-bold">FM Wave</CardTitle>
@@ -118,7 +120,14 @@ export default function SignalLabSimulator() {
                 className="w-full max-w-xl h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
               />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mt-3">
+          </CardContent>
+        </Card>
+        <Card className="bg-gradient-to-br from-green-50 to-teal-100 dark:from-green-900 dark:to-teal-800 border-2 border-green-200 dark:border-green-700 text-sm">
+          <CardHeader>
+            <CardTitle className="text-lg font-bold">Controls</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <SliderRow
                 label="Amplitude"
                 value={amplitude}
@@ -144,6 +153,23 @@ export default function SignalLabSimulator() {
                 max={5}
                 step={0.1}
                 onChange={setModIndex}
+              />
+              <SliderRow
+                label="Phase Shift"
+                value={phaseShift}
+                min={0}
+                max={6.28}
+                step={0.1}
+                onChange={setPhaseShift}
+                unit=" rad"
+              />
+              <SliderRow
+                label="Speed"
+                value={speed}
+                min={0.5}
+                max={2}
+                step={0.1}
+                onChange={setSpeed}
               />
             </div>
           </CardContent>
