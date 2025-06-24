@@ -20,38 +20,158 @@ import {
 
 // Split the spectrum into non-ionizing and ionizing categories
 const NON_IONIZING_BANDS = [
-  { id: "nfc", label: "NFC", freq: 0.01356, penetration: "Very High" },
-  { id: "sigfox", label: "Sigfox", freq: 0.868, penetration: "Very High" },
-  { id: "zwave", label: "Z-Wave", freq: 0.9, penetration: "Very High" },
-  { id: "lora", label: "LoRa", freq: 0.915, penetration: "Very High" },
-  { id: "dect", label: "DECT 1.9 GHz", freq: 1.9, penetration: "High" },
-  { id: "bluetooth", label: "Bluetooth Classic", freq: 2.4, penetration: "High" },
-  { id: "ble", label: "Bluetooth LE", freq: 2.4, penetration: "High" },
-  { id: "zigbee", label: "Zigbee", freq: 2.4, penetration: "High" },
-  { id: "wifi4-24", label: "Wi-Fi 4 2.4 GHz", freq: 2.4, penetration: "High" },
-  { id: "wifi4-5", label: "Wi-Fi 4 5 GHz", freq: 5, penetration: "Medium" },
-  { id: "wifi5", label: "Wi-Fi 5 GHz", freq: 5, penetration: "Medium" },
-  { id: "wifi6e", label: "Wi-Fi 6E 6 GHz", freq: 6, penetration: "Low" },
-  { id: "wifi7", label: "Wi-Fi 7 6 GHz", freq: 6, penetration: "Low" },
-  { id: "lte", label: "LTE", freq: 1.8, penetration: "High" },
-  { id: "5g-low", label: "5G Low-band", freq: 0.7, penetration: "High" },
-  { id: "5g-mid", label: "5G mid-band", freq: 3.5, penetration: "Medium" },
-  { id: "5g-mm", label: "5G mmWave", freq: 28, penetration: "Very Low" },
+  {
+    id: "nfc",
+    label: "NFC",
+    freq: 0.01356,
+    penetration: "Very High",
+    defaults: { amplitude: 60, modFreq: 0.3, modIndex: 0.8 },
+  },
+  {
+    id: "sigfox",
+    label: "Sigfox",
+    freq: 0.868,
+    penetration: "Very High",
+    defaults: { amplitude: 55, modFreq: 0.5, modIndex: 1 },
+  },
+  {
+    id: "zwave",
+    label: "Z-Wave",
+    freq: 0.9,
+    penetration: "Very High",
+    defaults: { amplitude: 55, modFreq: 0.6, modIndex: 1 },
+  },
+  {
+    id: "lora",
+    label: "LoRa",
+    freq: 0.915,
+    penetration: "Very High",
+    defaults: { amplitude: 55, modFreq: 0.6, modIndex: 1 },
+  },
+  {
+    id: "dect",
+    label: "DECT 1.9 GHz",
+    freq: 1.9,
+    penetration: "High",
+    defaults: { amplitude: 50, modFreq: 0.8, modIndex: 1.2 },
+  },
+  {
+    id: "bluetooth",
+    label: "Bluetooth Classic",
+    freq: 2.4,
+    penetration: "High",
+    defaults: { amplitude: 45, modFreq: 1, modIndex: 1.2 },
+  },
+  {
+    id: "ble",
+    label: "Bluetooth LE",
+    freq: 2.4,
+    penetration: "High",
+    defaults: { amplitude: 45, modFreq: 1, modIndex: 1.1 },
+  },
+  {
+    id: "zigbee",
+    label: "Zigbee",
+    freq: 2.4,
+    penetration: "High",
+    defaults: { amplitude: 45, modFreq: 1, modIndex: 1.1 },
+  },
+  {
+    id: "wifi4-24",
+    label: "Wi-Fi 4 2.4 GHz",
+    freq: 2.4,
+    penetration: "High",
+    defaults: { amplitude: 45, modFreq: 1.2, modIndex: 1.3 },
+  },
+  {
+    id: "wifi4-5",
+    label: "Wi-Fi 4 5 GHz",
+    freq: 5,
+    penetration: "Medium",
+    defaults: { amplitude: 40, modFreq: 1.5, modIndex: 1.4 },
+  },
+  {
+    id: "wifi5",
+    label: "Wi-Fi 5 GHz",
+    freq: 5,
+    penetration: "Medium",
+    defaults: { amplitude: 40, modFreq: 1.6, modIndex: 1.4 },
+  },
+  {
+    id: "wifi6e",
+    label: "Wi-Fi 6E 6 GHz",
+    freq: 6,
+    penetration: "Low",
+    defaults: { amplitude: 35, modFreq: 1.8, modIndex: 1.6 },
+  },
+  {
+    id: "wifi7",
+    label: "Wi-Fi 7 6 GHz",
+    freq: 6,
+    penetration: "Low",
+    defaults: { amplitude: 35, modFreq: 1.8, modIndex: 1.6 },
+  },
+  {
+    id: "lte",
+    label: "LTE",
+    freq: 1.8,
+    penetration: "High",
+    defaults: { amplitude: 50, modFreq: 0.8, modIndex: 1.2 },
+  },
+  {
+    id: "5g-low",
+    label: "5G Low-band",
+    freq: 0.7,
+    penetration: "High",
+    defaults: { amplitude: 60, modFreq: 0.5, modIndex: 1 },
+  },
+  {
+    id: "5g-mid",
+    label: "5G mid-band",
+    freq: 3.5,
+    penetration: "Medium",
+    defaults: { amplitude: 42, modFreq: 1.3, modIndex: 1.3 },
+  },
+  {
+    id: "5g-mm",
+    label: "5G mmWave",
+    freq: 28,
+    penetration: "Very Low",
+    defaults: { amplitude: 30, modFreq: 2, modIndex: 2 },
+  },
 ]
 
 const IONIZING_BANDS = [
-  { id: "uv", label: "Ultraviolet", freq: 300000, penetration: "Very Low" },
-  { id: "xray", label: "X-Ray", freq: 3000000, penetration: "Very Low" },
-  { id: "gamma", label: "Gamma Ray", freq: 30000000, penetration: "Very Low" },
+  {
+    id: "uv",
+    label: "Ultraviolet",
+    freq: 300000,
+    penetration: "Very Low",
+    defaults: { amplitude: 20, modFreq: 3, modIndex: 2.5 },
+  },
+  {
+    id: "xray",
+    label: "X-Ray",
+    freq: 3000000,
+    penetration: "Very Low",
+    defaults: { amplitude: 15, modFreq: 3.5, modIndex: 3 },
+  },
+  {
+    id: "gamma",
+    label: "Gamma Ray",
+    freq: 30000000,
+    penetration: "Very Low",
+    defaults: { amplitude: 10, modFreq: 4, modIndex: 3.5 },
+  },
 ]
 
 const BANDS = [...NON_IONIZING_BANDS, ...IONIZING_BANDS]
 
 export default function SignalLabSimulator() {
   const [band, setBand] = useState(BANDS[0].id)
-  const [amplitude, setAmplitude] = useState(50)
-  const [modFreq, setModFreq] = useState(1)
-  const [modIndex, setModIndex] = useState(1)
+  const [amplitude, setAmplitude] = useState(BANDS[0].defaults.amplitude)
+  const [modFreq, setModFreq] = useState(BANDS[0].defaults.modFreq)
+  const [modIndex, setModIndex] = useState(BANDS[0].defaults.modIndex)
   const [phaseShift, setPhaseShift] = useState(0)
   const [speed, setSpeed] = useState(1)
   const canvasRef = useRef(null)
@@ -59,6 +179,18 @@ export default function SignalLabSimulator() {
   const timeRef = useRef(0)
 
   const carrierFreq = BANDS.find((b) => b.id === band)?.freq || 0.9
+
+  // Update controls when the band changes
+  useEffect(() => {
+    const selected = BANDS.find((b) => b.id === band)
+    if (selected) {
+      setAmplitude(selected.defaults.amplitude)
+      setModFreq(selected.defaults.modFreq)
+      setModIndex(selected.defaults.modIndex)
+      setPhaseShift(0)
+      setSpeed(1)
+    }
+  }, [band])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -106,7 +238,7 @@ export default function SignalLabSimulator() {
       animate={{ opacity: 1 }}
     >
       <h2 className="text-2xl font-bold">Signal Lab</h2>
-      <div className="space-y-6 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
+      <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
         <Card className="bg-gradient-to-br from-slate-50 to-purple-100 dark:from-gray-800 dark:to-gray-700 border-2 border-purple-200 dark:border-purple-700">
           <CardHeader>
             <CardTitle className="text-lg font-bold">FM Wave</CardTitle>
@@ -115,19 +247,12 @@ export default function SignalLabSimulator() {
             <div className="w-full flex justify-center">
               <canvas
                 ref={canvasRef}
-                width={600}
-                height={300}
-                className="w-full max-w-xl h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
+                width={500}
+                height={250}
+                className="w-full max-w-lg h-auto border border-gray-300 dark:border-gray-700 rounded-xl shadow-inner"
               />
             </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-gradient-to-br from-green-50 to-teal-100 dark:from-green-900 dark:to-teal-800 border-2 border-green-200 dark:border-green-700 text-sm">
-          <CardHeader>
-            <CardTitle className="text-lg font-bold">Controls</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-sm">
               <SliderRow
                 label="Amplitude"
                 value={amplitude}
