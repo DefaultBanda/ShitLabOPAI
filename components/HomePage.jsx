@@ -65,6 +65,13 @@ export default function HomePage() {
       icon: "🏎️",
     },
     {
+      id: "arto-dynamic-flow",
+      title: "Arto Dynamic Flow Lab",
+      description: "Visualize F1 DRS flap aero with vivid flow bands and live telemetry sliders",
+      color: "from-cyan-500 to-orange-500",
+      icon: "🌬️",
+    },
+    {
       id: "black-hole",
       title: "Black Hole Simulation",
       description: "Watch particles interact with a simulated black hole",
